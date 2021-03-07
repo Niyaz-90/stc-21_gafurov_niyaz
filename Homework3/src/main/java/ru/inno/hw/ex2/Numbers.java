@@ -22,7 +22,6 @@ public class Numbers {
 
 
             } catch (ArithmeticException e) {
-//                System.out.println(e);
             }
         }
     }

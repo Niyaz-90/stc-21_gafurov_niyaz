@@ -8,7 +8,7 @@ import java.sql.Time;
 
 public class Main {
     public static void main(String[] args) {
-        Person[] persons = new Person[20];
+        Person[] persons = new Person[10000];
         for (int i = 0; i < persons.length; i++) {
             persons[i] = new Person();
         }

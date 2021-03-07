@@ -27,7 +27,7 @@ public class BubbleSortImpl implements Sortable {
                     int value2 = people[j].getAge() - people[j - 1].getAge();
                     if (value2 == 0){
                         int value3 = people[j].getName().compareTo(people[j - 1].getName());
-                        if (value3 > 0){
+                        if (value3 < 0){
                             swap(j, j - 1);
                         }
                     } else if (value2 > 0) {

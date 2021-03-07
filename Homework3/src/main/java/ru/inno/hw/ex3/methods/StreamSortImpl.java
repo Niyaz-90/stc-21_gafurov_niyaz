@@ -13,9 +13,12 @@ public class StreamSortImpl implements Sortable {
 
         for (Person person : people) {
             boolean isPresent = personSet.add(person);
-            System.out.println(personSet.contains(person));
             if (!isPresent){
-                throw new IllegalStateException(" this element is already present in this set");
+                try {
+                    throw new IllegalStateException();
+                } catch (IllegalStateException e){
+                    System.out.println(" this element is already present in this set");
+                }
             }
         }
         Person[] newPersons = new Person[personSet.size()];
