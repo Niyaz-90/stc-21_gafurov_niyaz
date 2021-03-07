@@ -2,10 +2,10 @@ package ru.inno.hw.ex3.methods;
 
 import ru.inno.hw.ex3.models.Person;
 
-public class QuickSortImpl implements Sortable {
+public class BubbleSortImpl implements Sortable {
     private final Person[] people;
 
-    public QuickSortImpl(Person[] people) {
+    public BubbleSortImpl(Person[] people) {
         this.people = people;
     }
 
