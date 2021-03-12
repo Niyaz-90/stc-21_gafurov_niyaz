@@ -3,9 +3,13 @@ package ru.inno.hw.ex3.methods;
 import ru.inno.hw.ex3.models.Person;
 
 public class BubbleSortImpl implements Sortable {
-    private final Person[] people;
+    private Person[] people;
 
-    public BubbleSortImpl(Person[] people) {
+    public BubbleSortImpl() {
+
+    }
+
+    public void setPeople(Person[] people) {
         this.people = people;
     }
 
@@ -13,35 +17,30 @@ public class BubbleSortImpl implements Sortable {
     public String toString() {
         for (int i = 0; i < people.length; i++) {
             System.out.println("name: " + people[i].getName()
-            + " sex: " + people[i].getSex()
-            + " age: " + people[i].getAge());
+                    + " sex: " + people[i].getSex()
+                    + " age: " + people[i].getAge());
         }
-        return "that's all";
+        return null;
     }
 
-    public void sort(Person[] people){
-        for (int i = 0; i < people.length; i++) {
-            for (int j = people.length - 1;  j > 0; j--) {
-                int value1 = people[j].getSex().compareTo(people[j - 1].getSex());
-                if (value1 == 0){
-                    int value2 = people[j].getAge() - people[j - 1].getAge();
-                    if (value2 == 0){
-                        int value3 = people[j].getName().compareTo(people[j - 1].getName());
-                        if (value3 < 0){
-                            swap(j, j - 1);
-                        }
-                    } else if (value2 > 0) {
-                        swap(j, j - 1);
 
-                    }
-                } else  if (value1 > 0) {
-                    swap(j , j - 1);
+    public void sort() {
+        long bubbleSortStart = System.currentTimeMillis();
+        for (int i = 0; i < people.length; i++) {
+            for (int j = people.length - 1; j > i; j--) {
+
+                if (people[j].compareTo(people[j - 1]) < 0) {
+                    swap(j, j - 1);
                 }
             }
         }
+
+        toString();
+        System.out.println("\nBubbleSort end in " +
+                (System.currentTimeMillis() - bubbleSortStart) + " ms");
     }
 
-    private void swap(int p1, int p2){
+    private void swap(int p1, int p2) {
         Person tmp = people[p1];
         people[p1] = people[p2];
         people[p2] = tmp;

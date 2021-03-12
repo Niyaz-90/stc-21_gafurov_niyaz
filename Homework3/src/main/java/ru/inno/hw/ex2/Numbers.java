@@ -12,16 +12,15 @@ public class Numbers {
             try {
                 if (j > 0) {
                     double sqNumber = Math.sqrt(j);
-                    int wholePart = (int)sqNumber;
+                    int wholePart = (int) sqNumber;
                     if (Math.pow(wholePart, 2.0) == j) {
                         System.out.println(j);
                     }
                 } else {
                     throw new ArithmeticException();
                 }
-
-
             } catch (ArithmeticException e) {
+                System.out.println(e);
             }
         }
     }

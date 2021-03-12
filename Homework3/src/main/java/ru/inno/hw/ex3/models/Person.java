@@ -1,46 +1,18 @@
 package ru.inno.hw.ex3.models;
 
-import java.util.Comparator;
+import ru.inno.hw.ex3.service.RandomGenerator;
+
 import java.util.Objects;
 import java.util.Random;
 
-public class Person {
-    public final String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    public final String numbersAsString = "0123456789";
+public class Person implements Comparable<Person> {
+    private RandomGenerator generator;
     public String name;
-    public Sex sex;
+    public String sex;
     public int age;
-    private Random random = new Random();
 
     public Person() {
-        this.sex = new Sex();
-//        this.random = new Random();
-        this.name = nameGenerator();
-        this.age = ageGenerator();
-    }
-
-    private String nameGenerator(){
-        char[] letters = alphabet.toCharArray();
-        StringBuilder personName = new StringBuilder();
-        int count = 0;
-        while (count < 4){
-            personName.append(letters[random.nextInt(letters.length)]);
-            count++;
-        }
-        return String.valueOf(personName);
-
-
-    }
-
-    private int ageGenerator(){
-        char[] numbers = numbersAsString.toCharArray();
-        StringBuilder personAge = new StringBuilder();
-        int count = 0;
-        while (count < 2){
-            personAge.append(numbers[random.nextInt(numbers.length)]);
-            count++;
-        }
-        return Integer.parseInt(String.valueOf(personAge));
+        this.generator = new RandomGenerator();
     }
 
     @Override
@@ -60,58 +32,40 @@ public class Person {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName() {
+        this.name = generator.nameGenerator();
     }
 
     public String getSex() {
-        return sex.sex;
+        return sex;
     }
 
-    public void setSex(Sex sex) {
-        this.sex = sex;
+    public void setSex() {
+        this.sex = generator.sexGenerator();
     }
 
     public int getAge() {
         return age;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setAge() {
+        this.age = generator.ageGenerator();
     }
 
 
-
-
-    public static Comparator<Person> sexComparator = new Comparator<Person>() {
-        @Override
-        public int compare(Person o1, Person o2) {
-            return o2.sex.sex.compareTo(o1.sex.sex);
+    @Override
+    public int compareTo(Person o) {
+        int value1 = o.getSex().compareTo(this.getSex());
+        if (value1 == 0) {
+            int value2 = o.getAge() - this.getAge();
+            if (value2 == 0) {
+                return this.getName().compareTo(o.getName());
+            } else {
+                return value2;
+            }
         }
-    };
-    public static Comparator<Person> ageComparator = Comparator.comparing(o -> o.age);
-    public static Comparator<Person> nameComparator = Comparator.comparing(o -> o.name);
+        return value1;
+    }
 
 
-    public static Comparator<Person> uniqueComparator = new Comparator<Person>() {
-        @Override
-        public int compare(Person o1, Person o2) {
-            int value1 = o2.getSex().compareTo(o1.getSex());
-            if (value1 == 0){
-                int value2 = o2.getAge() - o1.getAge();
-                if (value2 == 0){
-                    return o1.getName().compareTo(o2.getName());
-                } else {
-                    return value2;
-                }
-
-            } return value1;
-
-        }
-    };
-
-//    @Override
-//    public int compareTo(Person o) {
-//
-//    }
 }

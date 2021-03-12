@@ -4,22 +4,31 @@ import ru.inno.hw.ex3.models.Person;
 import ru.inno.hw.ex3.service.Service;
 import ru.inno.hw.ex3.service.ServiceImpl;
 
-import java.sql.Time;
 
+/*
+Исправления:
+ - Comparator заменён методом compareTo();
+ - логика сравнения в BubbleSortImpl перемещена также в compareTo();
+ - генерация случайных имёнб возраста и пола вынесены в отдельный класс RandomGenerator;
+ - убрана обёртка над Enam-ом Sex;
+ - добавлено исключение DuplicateException;
+ */
 public class Main {
     public static void main(String[] args) {
-        Person[] persons = new Person[10000];
+
+        Person[] persons = new Person[1000];
         for (int i = 0; i < persons.length; i++) {
             persons[i] = new Person();
+            persons[i].setName();
+            persons[i].setAge();
+            persons[i].setSex();
         }
         Service service = new ServiceImpl(persons);
+        service.sortUniqueElements();
         System.out.println("stream sort result");
-        long streamSortStart = System.currentTimeMillis();
         service.beginStreamSort();
-        System.out.println("StreamSort end in " + (System.currentTimeMillis() - streamSortStart) +  " ms");
         System.out.println("\n\n\nbubble sort result");
-        long quickSortStart = System.currentTimeMillis();
-        service.beginQuickSort();
-        System.out.println("BubbleSort end in " + (System.currentTimeMillis() - quickSortStart) + " ms");
+        service.beginBubbleSort();
+
     }
 }
