@@ -11,26 +11,26 @@ public class ObjectBox {
         this.objectsList = objectsList;
     }
 
-    public boolean addObject(Object object){
+    public boolean addObject(Object object) {
 
-        if (object.getClass().getSimpleName().equals("Object")){
+        if (object.getClass().getSimpleName().equals("Object")) {
             return objectsList.add(object);
         } else {
             return false;
         }
     }
 
-    public boolean deleteObject(Object object){
+    public boolean deleteObject(Object object) {
         boolean isDeleted = objectsList.remove(object);
-        if (isDeleted){
-            return  true;
+        if (isDeleted) {
+            return true;
         } else {
             System.out.println("Element not found");
             return false;
         }
     }
 
-    public void dump(){
+    public void dump() {
         for (Object o : objectsList) {
             System.out.println(o);
         }
