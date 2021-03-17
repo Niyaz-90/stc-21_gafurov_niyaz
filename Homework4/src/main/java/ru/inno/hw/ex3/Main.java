@@ -9,10 +9,11 @@ package ru.inno.hw.ex3;
 
 public class Main {
     public static void main(String[] args) {
+        //Исходные данные
         Number[] numbers = {3, 94.4, 56F, 34L};
         MathBox mathBox1 = new MathBox(numbers);
 
-
+        //Проверка корректной работы методов
         System.out.println(mathBox1.summator());
         mathBox1.splitter(3);
         mathBox1.dump();

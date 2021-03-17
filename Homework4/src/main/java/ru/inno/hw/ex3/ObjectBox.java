@@ -1,14 +1,14 @@
 package ru.inno.hw.ex3;
 
-import java.util.Arrays;
+
 import java.util.LinkedList;
 
 public class ObjectBox<T> {
+    private LinkedList<T> objectsList;
+
     public LinkedList<T> getObjectsList() {
         return objectsList;
     }
-
-    private LinkedList<T> objectsList;
 
 
     public ObjectBox(LinkedList<T> numberLinkedList) {
@@ -16,20 +16,20 @@ public class ObjectBox<T> {
     }
 
     /*Добавление нового элемента в список. Входной параметр - объект класса Object(для выполнения
-     условия задачи), хотя если брать на вход объект класса Т, то происходит ошибка компиляции,
+     условия задачи), хотя если брать на вход любой другой объект(кроме класса Т), то происходит ошибка компиляции,
      т.к. класс параметризован*/
     public boolean addElement(Object object) {
 
         try {
             //попытка приведения к нужному типу
             T number = (T) object;
-            if (number.getClass().getSimpleName().equals("Object")){
+            if (number.getClass().getSimpleName().equals("Object")) {
                 throw new ClassCastException();
             } else {
                 return objectsList.add(number);
             }
-        } catch (ClassCastException e){
-            System.out.println(e + "Cannot add Object entity to Number container");
+        } catch (ClassCastException e) {
+            System.out.println(e + " Cannot add Object entity to Number container");
             return false;
         }
     }

@@ -1,23 +1,58 @@
-package ru.inno.hw.ex3;
+package ru.inno.hw.ex3a;
+
 
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Objects;
 
- class MathBox extends ObjectBox<Number> {
-     //LinkedList т.к. большинство методов проходят по всем элементам
-    private LinkedList<Number> numberLinkedList;
+class MathBoxImpl<T extends Number> implements ObjectBox<T> {
+
+    private LinkedList<T> numberLinkedList;
+
     private static int id = 0;
 
     private int instanceId;
 
 
-    public MathBox(Number[] numbers) {
-        super(new LinkedList<Number>(Arrays.asList(numbers)));
-
-        this.numberLinkedList = super.getObjectsList();
+    public MathBoxImpl(T[] numbers) {
+        this.numberLinkedList = new LinkedList<>(Arrays.asList(numbers));
         this.instanceId = id;
         id++;
+    }
+
+    @Override
+    public boolean addElement(Object object) {
+        try {
+            //попытка приведения к нужному типу
+            T number = (T) object;
+            if (number.getClass().getSimpleName().equals("Object")) {
+                throw new ClassCastException();
+            } else {
+                return numberLinkedList.add(number);
+            }
+        } catch (ClassCastException e) {
+            System.out.println(e + " Cannot add Object entity to Number container");
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteElement(T object) {
+        boolean isDeleted = numberLinkedList.remove(object);
+        if (isDeleted) {
+            System.out.println(true);
+            return true;
+        } else {
+            System.out.println("Element not found");
+            return false;
+        }
+    }
+
+    @Override
+    public void dump() {
+        for (T o : numberLinkedList) {
+            System.out.println(o);
+        }
     }
 
     public int getInstanceId() {
@@ -35,7 +70,7 @@ import java.util.Objects;
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MathBox mathBox = (MathBox) o;
+        MathBoxImpl<T> mathBox = (MathBoxImpl<T>) o;
         return instanceId == mathBox.instanceId && numberLinkedList.equals(mathBox.numberLinkedList);
     }
 
@@ -43,7 +78,6 @@ import java.util.Objects;
     public int hashCode() {
         return Objects.hash(numberLinkedList, instanceId);
     }
-
 
     public double summator() {
         double sum = 0;
@@ -56,18 +90,12 @@ import java.util.Objects;
 
     public void splitter(int divider) {
         for (int i = 0; i < numberLinkedList.size(); i++) {
-            Number result = numberLinkedList.get(i).doubleValue() / divider;
-            numberLinkedList.set(i, result);
+            Number result = (numberLinkedList.get(i).doubleValue() / divider);
+            numberLinkedList.set(i, (T) result);
         }
     }
 
-    public void dump() {
-        for (Number number : numberLinkedList) {
-            System.out.println(number.toString());
-        }
-    }
 
-    //Удаление элемента
     public void remove(Integer numberForRemove) {
 
         for (int i = 0; i < numberLinkedList.size(); i++) {
@@ -76,8 +104,10 @@ import java.util.Objects;
                     | numberLinkedList.get(i).getClass().getSimpleName().equals("Integer")
                     & numberLinkedList.get(i).intValue() == numberForRemove) {
                 numberLinkedList.remove(i);
+                System.out.println(numberForRemove + " successfully deleted");
                 break;
             }
         }
+        System.out.println("Incorrect number");
     }
 }

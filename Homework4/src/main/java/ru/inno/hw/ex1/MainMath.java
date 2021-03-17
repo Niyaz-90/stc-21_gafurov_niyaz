@@ -18,7 +18,7 @@ import java.util.*;
         удаляет его.
 */
 
-public class MainMathBox {
+public class MainMath {
     public static void main(String[] args) {
         //исходные данные
         Number[] numbers1 = {3, 6.8, 1L, 4F, 3.0};
@@ -47,3 +47,4 @@ public class MainMathBox {
         System.out.println(mathBoxMap.get(1).toString());
     }
 }
+

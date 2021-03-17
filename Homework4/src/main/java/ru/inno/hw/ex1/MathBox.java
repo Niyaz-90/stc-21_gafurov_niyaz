@@ -17,7 +17,6 @@ public class MathBox {
         id++;
     }
 
-
     public int getInstanceId() {
         return instanceId;
     }
@@ -42,6 +41,7 @@ public class MathBox {
         return Objects.hash(instanceId, numberLinkedList);
     }
 
+    // суммирование элементов
     public double summator() {
         double sum = 0;
         for (Number number : numberLinkedList) {
@@ -50,6 +50,7 @@ public class MathBox {
         return sum;
     }
 
+    //деление всех элементов на делитель
     public void splitter(int divider) {
         for (int i = 0; i < numberLinkedList.size(); i++) {
             double result = numberLinkedList.get(i).doubleValue() / divider;
@@ -58,6 +59,7 @@ public class MathBox {
     }
 
 
+    //Удаление
     public void remove(Integer numberForRemove) {
 
         for (int i = 0; i < numberLinkedList.size(); i++) {

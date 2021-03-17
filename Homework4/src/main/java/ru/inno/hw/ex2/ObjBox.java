@@ -1,16 +1,16 @@
 package ru.inno.hw.ex2;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
-public class ObjectBox {
+import java.util.LinkedList;
+
+public class ObjBox {
     private LinkedList<Object> objectsList;
 
-    public ObjectBox(LinkedList<Object> objectsList) {
+    public ObjBox(LinkedList<Object> objectsList) {
         this.objectsList = objectsList;
     }
 
+    //Добавление объекта
     public boolean addObject(Object object) {
 
         if (object.getClass().getSimpleName().equals("Object")) {
@@ -20,6 +20,7 @@ public class ObjectBox {
         }
     }
 
+    //Удаление объекта
     public boolean deleteObject(Object object) {
         boolean isDeleted = objectsList.remove(object);
         if (isDeleted) {
@@ -30,6 +31,7 @@ public class ObjectBox {
         }
     }
 
+    // Печать всех элементов
     public void dump() {
         for (Object o : objectsList) {
             System.out.println(o);

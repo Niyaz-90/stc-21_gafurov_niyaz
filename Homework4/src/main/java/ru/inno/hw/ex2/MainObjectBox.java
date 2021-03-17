@@ -26,8 +26,9 @@ public class MainObjectBox {
         linkedList.add(o3);
         linkedList.add(o4);
 
-        ObjectBox objectBox = new ObjectBox(linkedList);
+        ObjBox objectBox = new ObjBox(linkedList);
 
+        // Проверка работы методов
         Object obj = new Object();
         String str = " srt";
         int a = 5;
