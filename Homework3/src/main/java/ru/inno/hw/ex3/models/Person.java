@@ -5,14 +5,13 @@ import ru.inno.hw.ex3.service.RandomGenerator;
 import java.util.Objects;
 import java.util.Random;
 
-public class Person implements Comparable<Person> {
-    private RandomGenerator generator;
+public class Person implements Comparable<Person>, Cloneable {
     public String name;
-    public String sex;
+    public Sex sex; // в enam
     public int age;
 
     public Person() {
-        this.generator = new RandomGenerator();
+
     }
 
     @Override
@@ -32,24 +31,24 @@ public class Person implements Comparable<Person> {
         return name;
     }
 
-    public void setName() {
-        this.name = generator.nameGenerator();
+    public void generateName() {
+        this.name = RandomGenerator.nameGenerator();
     }
 
-    public String getSex() {
+    public Sex getSex() {
         return sex;
     }
 
-    public void setSex() {
-        this.sex = generator.sexGenerator();
+    public void generateSex() {
+        this.sex = RandomGenerator.sexGenerator();
     }
 
     public int getAge() {
         return age;
     }
 
-    public void setAge() {
-        this.age = generator.ageGenerator();
+    public void generateAge() {
+        this.age = RandomGenerator.ageGenerator();
     }
 
 

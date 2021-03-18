@@ -2,6 +2,7 @@ package ru.inno.hw.ex1;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 public class MathBox {
@@ -9,7 +10,10 @@ public class MathBox {
 
     private final int instanceId;
 
-    private LinkedList<Number> numberLinkedList;
+
+    private List<Number> numberLinkedList;
+
+
 
     public MathBox(Number[] numbers) {
         this.numberLinkedList = new LinkedList<>(Arrays.asList(numbers));
@@ -63,8 +67,8 @@ public class MathBox {
     public void remove(Integer numberForRemove) {
 
         for (int i = 0; i < numberLinkedList.size(); i++) {
-            if (numberLinkedList.get(i).getClass().getSimpleName().equals("Double") & numberLinkedList.get(i).doubleValue() == numberForRemove.doubleValue()
-                    | numberLinkedList.get(i).getClass().getSimpleName().equals("Integer") & numberLinkedList.get(i).intValue() == numberForRemove) {
+            if (numberLinkedList.get(i) instanceof Number
+                    & numberLinkedList.get(i).doubleValue() == numberForRemove.doubleValue()) {
                 numberLinkedList.remove(i);
                 break;
             }

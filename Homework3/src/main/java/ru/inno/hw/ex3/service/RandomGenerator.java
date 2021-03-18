@@ -5,16 +5,14 @@ import ru.inno.hw.ex3.models.Sex;
 
 import java.util.Random;
 
-public class RandomGenerator {
+public  class  RandomGenerator {
 
-    private Random random = new Random();
-    private final Sex[] sexArray;
+    private static Random random = new Random();
+    private static final Sex[] sexArray = Sex.values();
 
-    public RandomGenerator() {
-        this.sexArray = Sex.values();
-    }
 
-    public String nameGenerator() {
+
+    public static String nameGenerator() {
         StringBuilder personName = new StringBuilder();
         int count = 0;
         while (count < 4) {
@@ -25,12 +23,12 @@ public class RandomGenerator {
         return String.valueOf(personName);
     }
 
-    public int ageGenerator() {
+    public static int ageGenerator() {
         return random.nextInt(99) + 1;
     }
 
-    public String sexGenerator() {
-        return sexArray[random.nextInt(2)].toString();
+    public static Sex sexGenerator() {
+        return sexArray[random.nextInt(2)];
     }
 
 

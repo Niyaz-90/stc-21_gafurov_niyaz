@@ -2,25 +2,38 @@ package ru.inno.hw.ex3;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
- class MathBox extends ObjectBox<Number> {
+ class MathBox<T extends Number> extends ObjectBox<T> {
      //LinkedList т.к. большинство методов проходят по всем элементам
-    private LinkedList<Number> numberLinkedList;
+    private List<T> numberLinkedList;
     private static int id = 0;
 
     private int instanceId;
 
 
-    public MathBox(Number[] numbers) {
-        super(new LinkedList<Number>(Arrays.asList(numbers)));
-
+    public MathBox(T[] numbers) {
+        super(numbers);
         this.numberLinkedList = super.getObjectsList();
         this.instanceId = id;
         id++;
     }
 
-    public int getInstanceId() {
+     @Override
+     public T addElement(T object) {
+        if (super.addElement(object) instanceof Number) {
+            return super.addElement(object);
+        }
+        try {
+            throw new UnsupportedClassException();
+        } catch (UnsupportedClassException e){
+            System.out.println("The instance isn't instance of Number");
+            return null;
+        }
+     }
+
+     public int getInstanceId() {
         return instanceId;
     }
 
@@ -48,16 +61,16 @@ import java.util.Objects;
     public double summator() {
         double sum = 0;
 
-        for (int i = 0; i < numberLinkedList.size(); i++) {
-            sum += numberLinkedList.get(i).doubleValue();
+        for (int i = 0; i < super.getObjectsList().size(); i++) {
+            sum += super.getObjectsList().get(i).doubleValue();
         }
         return sum;
     }
 
     public void splitter(int divider) {
-        for (int i = 0; i < numberLinkedList.size(); i++) {
-            Number result = numberLinkedList.get(i).doubleValue() / divider;
-            numberLinkedList.set(i, result);
+        for (int i = 0; i < super.getObjectsList().size(); i++) {
+            Double result = super.getObjectsList().get(i).doubleValue() / divider;
+            numberLinkedList.set(i, (T)result);
         }
     }
 
@@ -71,10 +84,8 @@ import java.util.Objects;
     public void remove(Integer numberForRemove) {
 
         for (int i = 0; i < numberLinkedList.size(); i++) {
-            if (numberLinkedList.get(i).getClass().getSimpleName().equals("Double")
-                    & numberLinkedList.get(i).doubleValue() == numberForRemove.doubleValue()
-                    | numberLinkedList.get(i).getClass().getSimpleName().equals("Integer")
-                    & numberLinkedList.get(i).intValue() == numberForRemove) {
+            if (numberLinkedList.get(i) instanceof Number
+                    & numberLinkedList.get(i).doubleValue() == numberForRemove.doubleValue()) {
                 numberLinkedList.remove(i);
                 break;
             }

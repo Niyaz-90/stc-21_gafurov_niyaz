@@ -1,5 +1,7 @@
 package ru.inno.hw.ex2;
 
+import ru.inno.hw.ex2.exception.NegativeNumberException;
+
 import java.util.Random;
 
 public class Numbers {
@@ -17,10 +19,10 @@ public class Numbers {
                         System.out.println(j);
                     }
                 } else {
-                    throw new ArithmeticException();
+                    throw new NegativeNumberException();
                 }
-            } catch (ArithmeticException e) {
-                System.out.println(e);
+            } catch (NegativeNumberException e) {
+                System.out.println("negative number");
             }
         }
     }

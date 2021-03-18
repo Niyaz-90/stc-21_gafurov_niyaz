@@ -2,9 +2,10 @@ package ru.inno.hw.ex2;
 
 
 import java.util.LinkedList;
+import java.util.List;
 
 public class ObjBox {
-    private LinkedList<Object> objectsList;
+    private List<Object> objectsList;
 
     public ObjBox(LinkedList<Object> objectsList) {
         this.objectsList = objectsList;
@@ -13,11 +14,8 @@ public class ObjBox {
     //Добавление объекта
     public boolean addObject(Object object) {
 
-        if (object.getClass().getSimpleName().equals("Object")) {
-            return objectsList.add(object);
-        } else {
-            return false;
-        }
+         objectsList.add(object);
+        return true;
     }
 
     //Удаление объекта

@@ -8,8 +8,6 @@ public class StreamSortImpl implements Sortable {
     private Person[] people;
 
 
-    public StreamSortImpl() {
-    }
 
     public void setPeople(Person[] people) {
 

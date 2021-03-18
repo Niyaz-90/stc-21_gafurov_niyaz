@@ -6,6 +6,7 @@ import ru.inno.hw.ex3.methods.BubbleSortImpl;
 import ru.inno.hw.ex3.methods.StreamSortImpl;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class ServiceImpl implements Service {
@@ -36,7 +37,7 @@ public class ServiceImpl implements Service {
         uniquePeople = new Person[personSet.size()];
         personSet.toArray(uniquePeople);
         this.streamSort.setPeople(uniquePeople);
-        this.bubbleSort.setPeople(uniquePeople);
+        this.bubbleSort.setPeople(uniquePeople.clone());
 
 
     }

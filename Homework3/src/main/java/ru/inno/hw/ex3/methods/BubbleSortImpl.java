@@ -5,22 +5,9 @@ import ru.inno.hw.ex3.models.Person;
 public class BubbleSortImpl implements Sortable {
     private Person[] people;
 
-    public BubbleSortImpl() {
-
-    }
 
     public void setPeople(Person[] people) {
         this.people = people;
-    }
-
-    @Override
-    public String toString() {
-        for (int i = 0; i < people.length; i++) {
-            System.out.println("name: " + people[i].getName()
-                    + " sex: " + people[i].getSex()
-                    + " age: " + people[i].getAge());
-        }
-        return null;
     }
 
 

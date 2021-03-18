@@ -19,9 +19,9 @@ public class Main {
         Person[] persons = new Person[1000];
         for (int i = 0; i < persons.length; i++) {
             persons[i] = new Person();
-            persons[i].setName();
-            persons[i].setAge();
-            persons[i].setSex();
+            persons[i].generateName();
+            persons[i].generateAge();
+            persons[i].generateSex();
         }
         Service service = new ServiceImpl(persons);
         service.sortUniqueElements();

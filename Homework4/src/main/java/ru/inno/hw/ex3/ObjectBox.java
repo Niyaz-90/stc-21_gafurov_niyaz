@@ -1,37 +1,30 @@
 package ru.inno.hw.ex3;
 
 
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ObjectBox<T> {
-    private LinkedList<T> objectsList;
+    private List<T> objectsList;
 
-    public LinkedList<T> getObjectsList() {
+    public ObjectBox(T[] array) {
+        this.objectsList = new LinkedList<>(Arrays.asList(array));
+    }
+
+    public List<T> getObjectsList() {
         return objectsList;
     }
 
 
-    public ObjectBox(LinkedList<T> numberLinkedList) {
-        this.objectsList = numberLinkedList;
-    }
 
     /*Добавление нового элемента в список. Входной параметр - объект класса Object(для выполнения
      условия задачи), хотя если брать на вход любой другой объект(кроме класса Т), то происходит ошибка компиляции,
      т.к. класс параметризован*/
-    public boolean addElement(Object object) {
+    public T addElement(Object object) {
 
-        try {
-            //попытка приведения к нужному типу
-            T number = (T) object;
-            if (number.getClass().getSimpleName().equals("Object")) {
-                throw new ClassCastException();
-            } else {
-                return objectsList.add(number);
-            }
-        } catch (ClassCastException e) {
-            System.out.println(e + " Cannot add Object entity to Number container");
-            return false;
-        }
+        objectsList.add(object);
+        return object;
     }
 
     public boolean deleteElement(T object) {
