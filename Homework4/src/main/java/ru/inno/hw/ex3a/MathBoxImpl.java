@@ -82,7 +82,10 @@ class MathBoxImpl<T extends Number> implements ObjectBox<T> {
     public double summator() {
         double sum = 0;
 
+
         for (int i = 0; i < numberLinkedList.size(); i++) {
+
+//            if ()
             sum += numberLinkedList.get(i).doubleValue();
         }
         return sum;

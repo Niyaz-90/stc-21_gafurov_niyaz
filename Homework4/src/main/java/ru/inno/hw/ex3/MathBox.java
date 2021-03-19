@@ -7,7 +7,7 @@ import java.util.Objects;
 
  class MathBox<T extends Number> extends ObjectBox<T> {
      //LinkedList т.к. большинство методов проходят по всем элементам
-    private List<T> numberLinkedList;
+//    private List<T> numberLinkedList;
     private static int id = 0;
 
     private int instanceId;
@@ -15,23 +15,31 @@ import java.util.Objects;
 
     public MathBox(T[] numbers) {
         super(numbers);
-        this.numberLinkedList = super.getObjectsList();
+//        this.numberLinkedList = super.getObjectsList();
         this.instanceId = id;
         id++;
     }
 
      @Override
-     public T addElement(T object) {
-        if (super.addElement(object) instanceof Number) {
-            return super.addElement(object);
+     public void addElement(Object object) {
+        try {
+            Number number = (Number) object;
+            super.addElement(object);
+        } catch (ClassCastException e){
+            System.out.println("The instance isn't instance of Number");
+
+        }
+        if (object instanceof Number) {
+
         }
         try {
             throw new UnsupportedClassException();
         } catch (UnsupportedClassException e){
-            System.out.println("The instance isn't instance of Number");
-            return null;
+
         }
      }
+
+
 
      public int getInstanceId() {
         return instanceId;
@@ -40,21 +48,23 @@ import java.util.Objects;
 
     @Override
     public String toString() {
-        return "MathBox " + this.getInstanceId() + " : " + numberLinkedList.toString();
+        return "MathBox " + this.getInstanceId() + " : " + super.getObjectsList().toString();
 
     }
+
+
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MathBox mathBox = (MathBox) o;
-        return instanceId == mathBox.instanceId && numberLinkedList.equals(mathBox.numberLinkedList);
+        MathBox<T> mathBox = (MathBox<T>) o;
+        return instanceId == mathBox.instanceId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(numberLinkedList, instanceId);
+        return Objects.hash( instanceId);
     }
 
 
@@ -62,33 +72,23 @@ import java.util.Objects;
         double sum = 0;
 
         for (int i = 0; i < super.getObjectsList().size(); i++) {
-            sum += super.getObjectsList().get(i).doubleValue();
+            if (super.getObjectsList().get(i) instanceof Number) {
+                Number number = (Number) super.getObjectsList().get(i);
+                sum+= number.doubleValue();
+            }
         }
         return sum;
     }
 
     public void splitter(int divider) {
         for (int i = 0; i < super.getObjectsList().size(); i++) {
-            Double result = super.getObjectsList().get(i).doubleValue() / divider;
-            numberLinkedList.set(i, (T)result);
-        }
-    }
-
-    public void dump() {
-        for (Number number : numberLinkedList) {
-            System.out.println(number.toString());
-        }
-    }
-
-    //Удаление элемента
-    public void remove(Integer numberForRemove) {
-
-        for (int i = 0; i < numberLinkedList.size(); i++) {
-            if (numberLinkedList.get(i) instanceof Number
-                    & numberLinkedList.get(i).doubleValue() == numberForRemove.doubleValue()) {
-                numberLinkedList.remove(i);
-                break;
+            Number number = null;
+            if (super.getObjectsList().get(i) instanceof Number) {
+                number = (Number) super.getObjectsList().get(i);
+                number = number.doubleValue()/divider;
             }
+            super.getObjectsList().set(i, number);
         }
     }
+
 }

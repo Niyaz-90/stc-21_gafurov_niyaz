@@ -5,14 +5,14 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ObjectBox<T> {
-    private List<T> objectsList;
+public class ObjectBox<t> {
+    private List<Object> objectsList;
 
-    public ObjectBox(T[] array) {
+    public ObjectBox(Object[] array) {
         this.objectsList = new LinkedList<>(Arrays.asList(array));
     }
 
-    public List<T> getObjectsList() {
+    public List<Object> getObjectsList() {
         return objectsList;
     }
 
@@ -21,13 +21,13 @@ public class ObjectBox<T> {
     /*Добавление нового элемента в список. Входной параметр - объект класса Object(для выполнения
      условия задачи), хотя если брать на вход любой другой объект(кроме класса Т), то происходит ошибка компиляции,
      т.к. класс параметризован*/
-    public T addElement(Object object) {
+    public void addElement(Object object) {
 
         objectsList.add(object);
-        return object;
+//        return object;
     }
 
-    public boolean deleteElement(T object) {
+    public boolean deleteElement(Object object) {
         boolean isDeleted = objectsList.remove(object);
         if (isDeleted) {
             System.out.println(true);
@@ -39,7 +39,7 @@ public class ObjectBox<T> {
     }
 
     public void dump() {
-        for (T o : objectsList) {
+        for (Object o : objectsList) {
             System.out.println(o);
         }
     }
