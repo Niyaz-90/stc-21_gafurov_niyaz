@@ -1,8 +1,11 @@
 package ru.inno.hw.ex3.box;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
-public class MathBox<T extends Number> extends ObjectBox<T> {
+public class MathBox<T extends Number> extends ObjectBox {
 
     private static int id = 0;
 

@@ -1,9 +1,6 @@
 package ru.inno.hw.ex1;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class MathBox {
     private static int id = 1;
@@ -16,7 +13,8 @@ public class MathBox {
 
 
     public MathBox(Number[] numbers) {
-        this.numberLinkedList = new LinkedList<>(Arrays.asList(numbers));
+        Set<Number> numberSet = new HashSet<>(Arrays.asList(numbers));
+        this.numberLinkedList = new LinkedList<>(numberSet);
         this.instanceId = id;
         id++;
     }

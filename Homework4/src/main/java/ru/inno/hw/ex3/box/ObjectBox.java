@@ -1,15 +1,14 @@
 package ru.inno.hw.ex3.box;
 
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
-public class ObjectBox<t> {
+public class ObjectBox {
     private List<Object> objectsList;
 
     public ObjectBox(Object[] array) {
-        this.objectsList = new LinkedList<>(Arrays.asList(array));
+        Set<Object> mathset = new HashSet<>(Arrays.asList(array));
+        this.objectsList = new LinkedList<>(mathset);
     }
 
     public List<Object> getObjectsList() {
@@ -17,10 +16,6 @@ public class ObjectBox<t> {
     }
 
 
-
-    /*Добавление нового элемента в список. Входной параметр - объект класса Object(для выполнения
-     условия задачи), хотя если брать на вход любой другой объект(кроме класса Т), то происходит ошибка компиляции,
-     т.к. класс параметризован*/
     public void addElement(Object object) {
 
         objectsList.add(object);
