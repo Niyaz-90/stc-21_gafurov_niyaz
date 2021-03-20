@@ -1,26 +1,26 @@
 package ru.inno.hw.ex1.model;
 
-import java.util.Optional;
-
 public class Pet implements Comparable<Pet> {
-    private int id;
+    private static int id = 1;
+    private int petId;
     private String nickname;
     private Person person;
     private int weight;
 
-    public Pet(int id, String nickname, Person person, int weight) {
-        this.id = id;
+    public Pet(String nickname, Person person, int weight) {
+        this.petId = id;
         this.nickname = nickname;
         this.person = person;
         this.weight = weight;
+        id++;
     }
 
-    public int getId() {
-        return id;
+    public int getPetId() {
+        return petId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setPetId(int petId) {
+        this.petId = petId;
     }
 
     public String getNickname() {
@@ -48,23 +48,29 @@ public class Pet implements Comparable<Pet> {
     }
 
 
-
     @Override
     public int compareTo(Pet o) {
         int value1 = this.getPerson().getName().compareTo(o.getPerson().getName());
-        if (value1 == 0){
+        if (value1 == 0) {
             int value2 = this.getNickname().compareTo(o.getNickname());
-            if (value2 == 0){
-                int value3 = this.getWeight() - o.getWeight();
-                if (value3 > 0){
-                    return value3;
-                }
-            } else if (value2 > 0){
+            if (value2 == 0) {
+                return this.getWeight() - o.getWeight();
+            } else {
                 return value2;
             }
-        } else if (value1 > 0){
+        } else {
             return value1;
         }
-        return 0;
+
+    }
+
+    @Override
+    public String toString() {
+        return "Pet{" + " person=" + person.toString() +
+
+                ", nickname= '" + nickname + '\'' +
+
+                ", weight= " + weight +
+                '}';
     }
 }

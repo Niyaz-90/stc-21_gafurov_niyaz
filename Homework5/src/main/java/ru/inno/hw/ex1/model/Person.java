@@ -22,4 +22,13 @@ public class Person {
     public String getSex() {
         return sex;
     }
+
+    @Override
+    public String toString() {
+        return "{ " +
+                "имя = '" + name + '\'' +
+                ", возраст = " + age +
+                ", sex = " + sex + " " +
+                '}';
+    }
 }
