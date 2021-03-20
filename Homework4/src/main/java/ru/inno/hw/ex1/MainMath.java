@@ -31,6 +31,11 @@ public class MainMath {
         // проверка корректной работы методов
         System.out.println(mathBox1.summator());
         mathBox2.remove(8);
+        mathBox1.remove(3);
+        System.out.println("--------------");
+        System.out.println( mathBox1.toString());
+        System.out.println(mathBox2.toString());
+        System.out.println("--------------");
         mathBox3.splitter(4);
         System.out.println(mathBox1.getInstanceId());
         System.out.println(mathBox2.getInstanceId());

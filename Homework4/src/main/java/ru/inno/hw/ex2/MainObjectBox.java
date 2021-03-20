@@ -40,7 +40,7 @@ public class MainObjectBox {
         System.out.println("-----------");
         objectBox.dump();
         System.out.println("-----------");
-        System.out.println("delete object " + o1a + " : " + objectBox.deleteObject(o1a));
+        objectBox.deleteObject(str);
         objectBox.dump();
 
 

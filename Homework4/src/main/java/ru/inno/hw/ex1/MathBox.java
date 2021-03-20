@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class MathBox {
-    private static int id = 0;
+    private static int id = 1;
 
     private final int instanceId;
 

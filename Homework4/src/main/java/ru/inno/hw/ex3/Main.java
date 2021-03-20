@@ -7,6 +7,8 @@ package ru.inno.hw.ex3;
   - При попытке положить Object в MathBox должно создаваться исключение.
  */
 
+import ru.inno.hw.ex3.box.MathBox;
+
 public class Main {
     public static void main(String[] args) {
         //Исходные данные
@@ -14,16 +16,18 @@ public class Main {
         MathBox<Number> mathBox1 = new MathBox<>(numbers);
 
         mathBox1.addElement("p");
+        mathBox1.addElement(new Object());
         mathBox1.addElement(5L);
+        mathBox1.addElement(45);
         mathBox1.addElement(9.0);
         mathBox1.addElement(5.8);
         mathBox1.addElement('c');
+
         //Проверка корректной работы методов
         System.out.println(mathBox1.summator());
         mathBox1.splitter(3);
         mathBox1.dump();
         System.out.println(" id = " + mathBox1.getInstanceId());
-        mathBox1.addElement(new Object());
         System.out.println(" sum = " + mathBox1.summator());
 
 

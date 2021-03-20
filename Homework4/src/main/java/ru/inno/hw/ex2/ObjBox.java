@@ -13,7 +13,6 @@ public class ObjBox {
 
     //Добавление объекта
     public boolean addObject(Object object) {
-
          objectsList.add(object);
         return true;
     }

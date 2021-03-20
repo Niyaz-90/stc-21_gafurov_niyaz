@@ -1,4 +1,4 @@
-package ru.inno.hw.ex3;
+package ru.inno.hw.ex3.box;
 
 
 import java.util.Arrays;
@@ -24,7 +24,6 @@ public class ObjectBox<t> {
     public void addElement(Object object) {
 
         objectsList.add(object);
-//        return object;
     }
 
     public boolean deleteElement(Object object) {

@@ -1,13 +1,9 @@
-package ru.inno.hw.ex3;
+package ru.inno.hw.ex3.box;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Objects;
 
- class MathBox<T extends Number> extends ObjectBox<T> {
-     //LinkedList т.к. большинство методов проходят по всем элементам
-//    private List<T> numberLinkedList;
+public class MathBox<T extends Number> extends ObjectBox<T> {
+
     private static int id = 0;
 
     private int instanceId;
@@ -15,33 +11,22 @@ import java.util.Objects;
 
     public MathBox(T[] numbers) {
         super(numbers);
-//        this.numberLinkedList = super.getObjectsList();
         this.instanceId = id;
         id++;
     }
 
-     @Override
-     public void addElement(Object object) {
+    @Override
+    public void addElement(Object object) {
         try {
             Number number = (Number) object;
             super.addElement(object);
-        } catch (ClassCastException e){
-            System.out.println("The instance isn't instance of Number");
-
+        } catch (ClassCastException e) {
+            System.out.println("The object isn't instance of Number");
         }
-        if (object instanceof Number) {
-
-        }
-        try {
-            throw new UnsupportedClassException();
-        } catch (UnsupportedClassException e){
-
-        }
-     }
+    }
 
 
-
-     public int getInstanceId() {
+    public int getInstanceId() {
         return instanceId;
     }
 
@@ -51,7 +36,6 @@ import java.util.Objects;
         return "MathBox " + this.getInstanceId() + " : " + super.getObjectsList().toString();
 
     }
-
 
 
     @Override
@@ -64,7 +48,7 @@ import java.util.Objects;
 
     @Override
     public int hashCode() {
-        return Objects.hash( instanceId);
+        return Objects.hash(instanceId);
     }
 
 
@@ -74,7 +58,7 @@ import java.util.Objects;
         for (int i = 0; i < super.getObjectsList().size(); i++) {
             if (super.getObjectsList().get(i) instanceof Number) {
                 Number number = (Number) super.getObjectsList().get(i);
-                sum+= number.doubleValue();
+                sum += number.doubleValue();
             }
         }
         return sum;
@@ -85,7 +69,7 @@ import java.util.Objects;
             Number number = null;
             if (super.getObjectsList().get(i) instanceof Number) {
                 number = (Number) super.getObjectsList().get(i);
-                number = number.doubleValue()/divider;
+                number = number.doubleValue() / divider;
             }
             super.getObjectsList().set(i, number);
         }
