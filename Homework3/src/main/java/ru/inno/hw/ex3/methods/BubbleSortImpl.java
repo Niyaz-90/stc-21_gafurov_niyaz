@@ -22,7 +22,9 @@ public class BubbleSortImpl implements Sortable {
             }
         }
 
-        toString();
+        for (Person person : people){
+            System.out.println(person.toString());
+        }
         System.out.println("\nBubbleSort end in " +
                 (System.currentTimeMillis() - bubbleSortStart) + " ms");
     }

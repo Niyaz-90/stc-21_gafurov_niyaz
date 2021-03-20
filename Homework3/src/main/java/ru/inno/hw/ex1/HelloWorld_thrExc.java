@@ -4,7 +4,11 @@ public class HelloWorld_thrExc {
     public static void main(String[] args) {
         String hello = "Hello World";
         if (hello.equals("Hello World")){
-            throw new IllegalArgumentException("hello don't equals HelloWorld");
+            try {
+                throw new CustomException();
+            } catch (CustomException e) {
+                System.out.println("hello don't equals HelloWorld");
+            }
         } else
             System.out.println(hello);
     }

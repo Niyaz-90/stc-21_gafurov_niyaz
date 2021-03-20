@@ -3,16 +3,13 @@ package ru.inno.hw.ex3.models;
 import ru.inno.hw.ex3.service.RandomGenerator;
 
 import java.util.Objects;
-import java.util.Random;
 
 public class Person implements Comparable<Person>, Cloneable {
     public String name;
-    public Sex sex; // в enam
+    public Sex sex;
     public int age;
 
-    public Person() {
 
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -54,7 +51,7 @@ public class Person implements Comparable<Person>, Cloneable {
 
     @Override
     public int compareTo(Person o) {
-        int value1 = o.getSex().compareTo(this.getSex());
+        int value1 = this.getSex().compareTo(o.getSex());
         if (value1 == 0) {
             int value2 = o.getAge() - this.getAge();
             if (value2 == 0) {
@@ -66,5 +63,9 @@ public class Person implements Comparable<Person>, Cloneable {
         return value1;
     }
 
-
+    @Override
+    public String toString() {
+        return "name: " + getName() + " sex: " + getSex()
+                + " age: " + getAge();
+    }
 }
