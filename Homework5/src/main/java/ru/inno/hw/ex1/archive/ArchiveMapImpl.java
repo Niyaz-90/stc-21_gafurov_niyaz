@@ -1,13 +1,13 @@
 package ru.inno.hw.ex1.archive;
 
-import java.lang.reflect.Array;
+
 import java.util.*;
 
 import ru.inno.hw.ex1.model.Pet;
 import ru.inno.hw.ex1.exception.DuplicateException;
 
 public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
-    private HashMap<K, V> archiveMap;//коллекция - мапа или arraylist
+    private HashMap<K, V> archiveMap;
 
     public ArchiveMapImpl() {
         this.archiveMap = new HashMap<>();
