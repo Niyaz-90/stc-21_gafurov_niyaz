@@ -1,5 +1,12 @@
 package ru.inno.hw6.task1;
 
+
+/*
+* Задание 1. Написать программу, читающую текстовый файл. Программа должна составлять
+*  отсортированный по алфавиту список слов, найденных в файле и сохранять его в файл-результат.
+* Найденные слова не должны повторяться, регистр не должен учитываться. Одно слово в разных
+* падежах – это разные слова.*/
+
 public class Main {
     public static void main(String[] args) {
         String filepath = "readhere.txt";
@@ -7,11 +14,12 @@ public class Main {
         CustomFileReader fileReader = new CustomFileReader(newFile, filepath);
         fileReader.readFile();
         fileReader.sort();
-//        fileReader.getList().forEach(System.out::println);
         for (String word :
                 fileReader.getList()) {
             System.out.println(word);
         }
         fileReader.writeToFile();
+
+
     }
 }
