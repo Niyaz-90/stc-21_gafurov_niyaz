@@ -1,33 +1,30 @@
 package ru.inno.hw6.task2;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        File file = new File("newFile.txt");
-//        Writer writer = null;
+        List<String> wordsList = new ArrayList<>();
         try {
+            BufferedReader reader = new BufferedReader(new FileReader("sorted.txt"));
+            while (reader.readLine() != null){
+                wordsList.add(reader.readLine());
+            }
+        } catch ( IOException e) {
+            e.printStackTrace();
+        }
+      String[] words = wordsList.toArray(new String[0]);
 
-
-//            file.createNewFile();
-//            FileOutputStream fos = new FileOutputStream("/file.txt");
-            System.out.println(file.length());
-            Writer writer = new FileWriter(file, true);
-            writer.write("Hello world");
-            writer.close();
+        Generator generator = new Generator();
+        String path = "resultPath";
+        try {
+            generator.getFiles(path, 3, 10, words, 10);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(file.length());
-        String h = "Hello world";
-
-
-        char[] harray = h.toCharArray();
-        byte count = 0;
-        for (char byt : harray){
-            count += (long) byt;
-        }
-        System.out.println(count);
-//        long kb =
+        System.out.println("that s all");
+//        System.out.println(generator.generateWord());
     }
 }

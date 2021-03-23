@@ -7,6 +7,9 @@ package ru.inno.hw6.task1;
 * Найденные слова не должны повторяться, регистр не должен учитываться. Одно слово в разных
 * падежах – это разные слова.*/
 
+import java.io.File;
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
         String filepath = "readhere.txt";
@@ -19,6 +22,7 @@ public class Main {
             System.out.println(word);
         }
         fileReader.writeToFile();
+
 
 
     }
