@@ -5,10 +5,9 @@ import java.util.Random;
 
 public class Generator {
     private static Random random = new Random();
-    private final char[] punctMarksArray = {'.', '!', '?'};  // как понять (.|!|?)+" ".   + и "" тоже считаются?
+    private final char[] punctMarksArray = {'.', '!', '?'};  // . ИЛИ ! ИЛИ ? и пробел в конце
 
-    public Generator() {
-    }
+
 
     public String generateWord() {
 
@@ -17,7 +16,7 @@ public class Generator {
         for (int i = 0; i < wordSize; i++) {
             sb.append((char) (random.nextInt(26) + 65));
         }
-        return String.valueOf(sb).toLowerCase();
+        return sb.toString().toLowerCase();
     }
 
 
@@ -29,8 +28,7 @@ public class Generator {
             File file = new File(path, "resultFile" + filesCount + ".txt");
             file.createNewFile();
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                StringBuilder sentenceBuilder = new StringBuilder();
-                StringBuilder wordBuilder = new StringBuilder();
+
 
                 //пока не достигли требуемой длины файла
                 while (file.length() <= size) {
@@ -38,16 +36,19 @@ public class Generator {
 
                     //пока не достигли требуемой длины абзаца
                     for (int i = 0; i < paragraphSize; i++) {
+                        StringBuilder sentenceBuilder = new StringBuilder(); // можно не инициализировать
                         int sentenceSize = random.nextInt(16) + 1;
 
                         // флаг - содержит предложение запятую или нет
                         boolean containsComma = random.nextBoolean();
 
                         // флаг - удовлетворяет условию вероятности(слово из массива)
-                        boolean containsArraysWord = Math.random() <= 1.0 / probability;
+                        // для каждого предложения
+                        boolean containsArraysWord = Math.random() <= 1.0 / probability; // во внутренний For(...)
 
                         // пока не достигли требуемой длины предложения
                         for (int j = 0; j < sentenceSize; j++) {
+                            StringBuilder wordBuilder = new StringBuilder();
 
                             // если попали в диапазон вероятности
                             if (containsArraysWord) {
@@ -63,7 +64,7 @@ public class Generator {
                             if (sentenceSize == 1) {
                                 wordBuilder.setCharAt(1, Character.toUpperCase(wordBuilder.charAt(1)));
                                 wordBuilder.append(punctMarksArray[random.nextInt(punctMarksArray.length)]);
-                                wordBuilder.setLength(0);
+
                                 continue;
                             }
 
@@ -72,7 +73,7 @@ public class Generator {
                                 wordBuilder.setCharAt(1, Character.toUpperCase(wordBuilder.charAt(1)));
                             }
 
-                            // если последнее, то поставить точку. Со switch - case не получается т.к. нужна константа
+                            // если последнее, то поставить точку
                             else if (j == sentenceSize - 1) {
                                 wordBuilder.append(punctMarksArray[random.nextInt(punctMarksArray.length)]);
                             }
@@ -84,13 +85,13 @@ public class Generator {
 
                             // добавляем слово к предложению
                             sentenceBuilder.append(wordBuilder);
-                            wordBuilder.setLength(0);
+
 
                         }
 
                         writer.write(sentenceBuilder.toString());
 
-                        sentenceBuilder.setLength(0);
+
                     }
 
                     writer.write("\r\n");

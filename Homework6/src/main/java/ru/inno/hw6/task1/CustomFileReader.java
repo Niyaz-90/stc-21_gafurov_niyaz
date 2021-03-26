@@ -24,17 +24,14 @@ public class CustomFileReader {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileForRead))) {
             while (reader.read() != -1) {
 
-//                String lineWithoutComma = reader.readLine().replaceAll(",", " ");
                 String lineWithoutDot = reader.readLine().replaceAll("\\pP", " ").toLowerCase();
                 String[] words = lineWithoutDot.split(" ");
-                for (String line :
-                        words) {
-                    if (!line.equals("") & !list.contains(line)) {
+                for (String line : words) {
+                    if (!"".equals(line) & !list.contains(line)) {   // TreeSet or other
                         list.add(line);
                     }
                 }
 
-//                reader.
 
             }
         } catch (IOException e) {
