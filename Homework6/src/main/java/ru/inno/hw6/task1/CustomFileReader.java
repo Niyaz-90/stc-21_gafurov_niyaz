@@ -1,22 +1,22 @@
 package ru.inno.hw6.task1;
 
 import java.io.*;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class CustomFileReader {
-    private List<String> list;
+    private Set<String> list;
     private final String fileForRead;
     private final String fileForWrite;
 
     public CustomFileReader(String fileForWrite, String fileForRead) {
         this.fileForRead = fileForRead;
         this.fileForWrite = fileForWrite;
-        this.list = new LinkedList<>();
+        this.list = new TreeSet<>();
+
     }
 
-    public List<String> getList() {
+    public Set<String> getList() {
         return list;
     }
 
@@ -24,14 +24,13 @@ public class CustomFileReader {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileForRead))) {
             while (reader.read() != -1) {
 
-                String lineWithoutDot = reader.readLine().replaceAll("\\pP", " ").toLowerCase();
+                String lineWithoutDot = reader.readLine().replaceAll("\\pP", "").toLowerCase();
                 String[] words = lineWithoutDot.split(" ");
                 for (String line : words) {
-                    if (!"".equals(line) & !list.contains(line)) {   // TreeSet or other
+                    if (!"".equals(line) & !list.contains(line)) {
                         list.add(line);
                     }
                 }
-
 
             }
         } catch (IOException e) {
@@ -39,19 +38,16 @@ public class CustomFileReader {
         }
     }
 
-    public void sort() {
-        list.sort(String::compareTo);
-    }
+
 
     public void writeToFile() {
-        try (Writer writer = new FileWriter(fileForWrite)) {
-            for (String word :
-                    list) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileForWrite))) {
+            for (String word : list) {
                 writer.write(word + "\n");
             }
 
         } catch (IOException e) {
-            e.getMessage();
+            e.printStackTrace();
         }
     }
 }

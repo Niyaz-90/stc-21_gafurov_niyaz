@@ -9,22 +9,19 @@ public class Main {
         List<String> wordsList = new ArrayList<>();
         try {
             BufferedReader reader = new BufferedReader(new FileReader("sorted.txt"));
-            while (reader.readLine() != null){
+            while (reader.readLine() != null) {
                 wordsList.add(reader.readLine());
             }
-        } catch ( IOException e) {
-            e.printStackTrace();
-        }
-      String[] words = wordsList.toArray(new String[0]);
-
-        Generator generator = new Generator();
-        String path = "resultPath";
-        try {
-            generator.getFiles(path, 3, 10, words, 10);
         } catch (IOException e) {
             e.printStackTrace();
         }
+        String[] words = wordsList.toArray(new String[0]);
+
+        Generator generator = new Generator();
+        String path = "resultPath";
+
+        generator.getFiles(path, 3, 10, words, 10);
+
         System.out.println("that s all");
-//        System.out.println(generator.generateWord());
     }
 }
