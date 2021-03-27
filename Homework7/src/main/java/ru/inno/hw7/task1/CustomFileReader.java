@@ -1,4 +1,4 @@
-package ru.inno.hw6.task1;
+package ru.inno.hw7.task1;
 
 import java.io.*;
 import java.util.Set;
@@ -37,7 +37,6 @@ public class CustomFileReader {
             System.out.println(e.getMessage());
         }
     }
-
 
 
     public void writeToFile() {

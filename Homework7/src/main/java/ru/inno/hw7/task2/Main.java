@@ -1,4 +1,4 @@
-package ru.inno.hw6.task2;
+package ru.inno.hw7.task2;
 
 import java.io.*;
 import java.util.ArrayList;

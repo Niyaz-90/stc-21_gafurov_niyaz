@@ -1,4 +1,4 @@
-package ru.inno.hw6.task1;
+package ru.inno.hw7.task1;
 
 
 /*
