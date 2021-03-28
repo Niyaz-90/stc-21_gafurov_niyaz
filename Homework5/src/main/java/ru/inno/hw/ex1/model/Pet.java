@@ -1,18 +1,19 @@
 package ru.inno.hw.ex1.model;
 
+import java.util.Comparator;
+
 public class Pet implements Comparable<Pet> {
     private static int id = 1;
     private int petId;
     private String nickname;
     private Person person;
-    private int weight;
+    private int weight; // лучше было бы Double
 
     public Pet(String nickname, Person person, int weight) {
-        this.petId = id;
+        this.petId = id++;
         this.nickname = nickname;
         this.person = person;
         this.weight = weight;
-        id++;
     }
 
     public int getPetId() {
@@ -63,6 +64,14 @@ public class Pet implements Comparable<Pet> {
         }
 
     }
+
+    public static Comparator<Pet> comparator = new Comparator<Pet>() {
+        @Override
+        public int compare(Pet o1, Pet o2) {
+
+            return o1.getNickname().compareTo(o2.getNickname());
+        }
+    };
 
     @Override
     public String toString() {

@@ -4,6 +4,7 @@ import ru.inno.hw.ex1.archive.Archive;
 import ru.inno.hw.ex1.archive.ArchiveMapImpl;
 import ru.inno.hw.ex1.model.Person;
 import ru.inno.hw.ex1.model.Pet;
+import ru.inno.hw.ex1.model.Sex;
 
 
 /*
@@ -22,10 +23,10 @@ import ru.inno.hw.ex1.model.Pet;
        */
 public class Main {
     public static void main(String[] args) {
-        Person ivan = new Person("Иван", 65, "м");
-        Person marina = new Person("Марина", 35, "ж");
-        Person mariya = new Person("Мария", 23, "ж");
-        Person roma = new Person("Роман", 34, "м");
+        Person ivan = new Person("Иван", 65, Sex.MALE);
+        Person marina = new Person("Марина", 35, Sex.FEMALE);
+        Person mariya = new Person("Мария", 23, Sex.FEMALE);
+        Person roma = new Person("Роман", 34, Sex.MALE);
         Pet tuzik1 = new Pet("Тузик", ivan, 12);
         Pet belka2 = new Pet("Белка", roma, 8);
         Pet ponchik3 = new Pet("Пончик", marina, 16);

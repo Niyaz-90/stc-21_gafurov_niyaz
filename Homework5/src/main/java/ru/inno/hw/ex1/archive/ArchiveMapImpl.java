@@ -6,8 +6,9 @@ import java.util.*;
 import ru.inno.hw.ex1.model.Pet;
 import ru.inno.hw.ex1.exception.DuplicateException;
 
-public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
-    private HashMap<K, V> archiveMap;
+public class ArchiveMapImpl<K , V extends Pet> implements Archive<K, V> {
+    private Map<K, V> archiveMap;
+    private Pet pet;
 
     public ArchiveMapImpl() {
         this.archiveMap = new HashMap<>();
@@ -19,7 +20,7 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
         if (!archiveMap.containsKey(key)) {
 
             archiveMap.put(key, pet);
-            System.out.println("New pet successfully added");
+            System.out.println("New pet successfully added");  // посмотреть логгеры
             return true;
 
         } else {
@@ -38,7 +39,7 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
     public Pet findByNickName(String nickName) {
 
         for (Map.Entry entry : archiveMap.entrySet()) {
-            Pet pet = (Pet) entry.getValue();
+            Pet pet = (Pet) entry.getKey();
             if (pet.getNickname().equals(nickName)) {
                 return pet;
             }
@@ -50,17 +51,19 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
 
 
     @Override
-    public Pet modifyById(K id) {
+    public Pet modifyById(int id) {  // создавать объект и здесь же (@Nullable = посмотреть) присваивавть значения
         if (archiveMap.containsKey(id)) {
             return archiveMap.get(id);
         } else {
-            System.out.println("Incorrect ID, cannot find pet with such ID");
+            System.out.println("Incorrect ID, cannot find pet with such ID" + id);  // add id
             return null;
         }
     }
 
     @Override
-    public void printAllSorted() {
+    public void printAllSorted() {  // посмотреть другие мапы, лучше поменять
+
+
 
         Pet[] pets = archiveMap.values().toArray(new Pet[archiveMap.values().size()]);
 
@@ -76,7 +79,6 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
             System.out.println(pet.toString());
         }
 
-//        archiveMap.values().stream().sorted(Pet::compareTo).forEach(System.out::println);
 
     }
 

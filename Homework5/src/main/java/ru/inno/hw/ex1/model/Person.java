@@ -1,11 +1,13 @@
 package ru.inno.hw.ex1.model;
 
+import java.util.Comparator;
+
 public class Person {
     private String name;
     private int age;
-    private String sex;
+    private Enum sex;
 
-    public Person(String name, int age, String sex) {
+    public Person(String name, int age, Enum sex) {
         this.name = name;
         this.age = age;
         this.sex = sex;
@@ -20,7 +22,7 @@ public class Person {
     }
 
     public String getSex() {
-        return sex;
+        return sex.toString();
     }
 
     @Override
@@ -31,4 +33,6 @@ public class Person {
                 ", sex = " + sex + " " +
                 '}';
     }
+
+
 }
