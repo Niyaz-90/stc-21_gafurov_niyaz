@@ -14,8 +14,7 @@ public class Main {
         String newFile = "sorted.txt";
         CustomFileReader fileReader = new CustomFileReader(newFile, filepath);
         fileReader.readFile();
-        for (String word :
-                fileReader.getList()) {
+        for (String word : fileReader.getList()) {
             System.out.println(word);
         }
         fileReader.writeToFile();

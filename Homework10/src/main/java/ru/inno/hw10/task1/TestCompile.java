@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.util.Scanner;
 
 public class TestCompile {
-    public static void main(String[] args) {
+    public void compile() {
         Scanner scanner = new Scanner(System.in);
 
         try {

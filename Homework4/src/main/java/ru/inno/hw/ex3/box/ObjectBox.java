@@ -3,7 +3,7 @@ package ru.inno.hw.ex3.box;
 
 import java.util.*;
 
-public class ObjectBox {
+public class ObjectBox<T> {
     private List<Object> objectsList;
 
     public ObjectBox(Object[] array) {

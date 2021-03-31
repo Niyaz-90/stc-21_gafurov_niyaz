@@ -15,8 +15,7 @@ public class MathBox {
     public MathBox(Number[] numbers) {
         Set<Number> numberSet = new HashSet<>(Arrays.asList(numbers));
         this.numberLinkedList = new LinkedList<>(numberSet);
-        this.instanceId = id;
-        id++;
+        this.instanceId = id++;
     }
 
     public int getInstanceId() {
@@ -65,7 +64,7 @@ public class MathBox {
     public void remove(Integer numberForRemove) {
 
         for (int i = 0; i < numberLinkedList.size(); i++) {
-            if (numberLinkedList.get(i) instanceof Number
+            if (numberLinkedList.get(i) instanceof Number // убрать избыточная строка(проверка)
                     & numberLinkedList.get(i).doubleValue() == numberForRemove.doubleValue()) {
                 numberLinkedList.remove(i);
                 break;

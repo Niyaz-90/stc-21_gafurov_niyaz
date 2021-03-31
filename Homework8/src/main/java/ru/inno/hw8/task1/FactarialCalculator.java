@@ -20,28 +20,26 @@ public class FactarialCalculator extends Thread {
     }
 
 
-
-
-    public void calculate(){
+    public void calculate() {
         for (int i : array) {
 
-        service.submit(() -> {
-            int count = 1;
-            System.out.println(Thread.currentThread().getName() + "   i = " + i);
-            BigInteger result = new BigInteger("1");
-            while (count <= i) {
-                result = result.multiply(BigInteger.valueOf(count));
-                System.out.println("вычисление для i = " + i + " , результат вычисления " + result + " потоком " + Thread.currentThread().getName());
-                count++;
+            service.submit(() -> {
+                int count = 1;
+                System.out.println(Thread.currentThread().getName() + "   i = " + i);
+                BigInteger result = new BigInteger("1");
+                while (count <= i) {
+                    result = result.multiply(BigInteger.valueOf(count));
+                    System.out.println("вычисление для i = " + i + " , результат вычисления "
+                            + result + " потоком " + Thread.currentThread().getName());
+                    count++;
 
-            }
-            System.out.println("*** Поток " + Thread.currentThread().getName() + " доработал с результатом " + result);
+                }
+                System.out.println("*** Поток " + Thread.currentThread().getName() + " доработал с результатом " + result);
 
-        });
+            });
 
-    }
+        }
         service.shutdown();
-
 
     }
 
