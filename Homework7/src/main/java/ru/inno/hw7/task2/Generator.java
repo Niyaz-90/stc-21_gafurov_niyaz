@@ -44,14 +44,18 @@ public class Generator {
                         // флаг - удовлетворяет условию вероятности(слово из массива)
                         // для каждого предложения
                         boolean containsArraysWord = Math.random() <= 1.0 / probability;
+                        boolean isPresent = false;
+                        int wordPosition = random.nextInt(sentenceSize);
 
                         // пока не достигли требуемой длины предложения
                         for (int j = 0; j < sentenceSize; j++) {
                             StringBuilder wordBuilder = new StringBuilder();
 
                             // если попали в диапазон вероятности
-                            if (containsArraysWord) {
-                                wordBuilder.append(" " + words[random.nextInt(words.length)]);
+                            if (containsArraysWord & !isPresent & wordPosition == j) {
+                                wordBuilder.append(" ").append(words[random.nextInt(words.length)]).append("("+ isPresent + ")"); //append(" ").append(...) без конкатенации
+                                isPresent = true;
+//                                continue;
                             }
 
                             // положение запятой в предложении
