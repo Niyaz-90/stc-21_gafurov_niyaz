@@ -3,15 +3,18 @@ package ru.inno.hw.ex1.archive;
 
 import java.util.*;
 
+import ru.inno.hw.ex1.model.Person;
 import ru.inno.hw.ex1.model.Pet;
 import ru.inno.hw.ex1.exception.DuplicateException;
 
-public class ArchiveMapImpl<K , V extends Pet> implements Archive<K, V> {
+public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
     private Map<K, V> archiveMap;
     private Pet pet;
+    private boolean isSorted;
 
     public ArchiveMapImpl() {
         this.archiveMap = new HashMap<>();
+        this.isSorted = false;
     }
 
 
@@ -20,7 +23,7 @@ public class ArchiveMapImpl<K , V extends Pet> implements Archive<K, V> {
         if (!archiveMap.containsKey(key)) {
 
             archiveMap.put(key, pet);
-            System.out.println("New pet successfully added");  // посмотреть логгеры
+            System.out.println("New pet successfully added");
             return true;
 
         } else {
@@ -51,32 +54,44 @@ public class ArchiveMapImpl<K , V extends Pet> implements Archive<K, V> {
 
 
     @Override
-    public Pet modifyById(int id) {  // создавать объект и здесь же (@Nullable = посмотреть) присваивавть значения
+    public void modifyById(int id, String nickname, Person person, int weight) {
         if (archiveMap.containsKey(id)) {
-            return archiveMap.get(id);
+            Pet pet = archiveMap.get(id);
+
+                if (nickname != null) {
+                    pet.setNickname(nickname);
+                }
+                if (person != null) {
+                    pet.setPerson(person);
+                }
+                if (weight != -1) {
+                    pet.setWeight(weight);
+                }
+
         } else {
-            System.out.println("Incorrect ID, cannot find pet with such ID" + id);  // add id
-            return null;
+            System.out.println("Incorrect ID, cannot find pet with such ID" + id);
         }
     }
 
     @Override
-    public void printAllSorted() {  // посмотреть другие мапы, лучше поменять
-
-
+    public void printAll() {
 
         Pet[] pets = archiveMap.values().toArray(new Pet[archiveMap.values().size()]);
 
-        for (int i = 0; i < pets.length; i++) {
-            for (int j = pets.length - 1; j > i; j--) {
+        if (!isSorted) {
 
-                if (pets[j].compareTo(pets[j - 1]) < 0) {
-                    swap(pets, j, j - 1);
+            for (int i = 0; i < pets.length; i++) {
+                for (int j = pets.length - 1; j > i; j--) {
+
+                    if (pets[j].compareTo(pets[j - 1]) < 0) {
+                        swap(pets, j, j - 1);
+                    }
                 }
             }
         }
+
         for (Pet pet : pets) {
-            System.out.println(pet.toString());
+            pet.toString();
         }
 
 

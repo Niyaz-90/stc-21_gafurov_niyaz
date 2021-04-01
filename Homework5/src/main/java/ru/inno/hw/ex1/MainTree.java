@@ -1,8 +1,6 @@
 package ru.inno.hw.ex1;
 
 import ru.inno.hw.ex1.archive.ArchieveTreeSet;
-import ru.inno.hw.ex1.archive.Archive;
-import ru.inno.hw.ex1.archive.ArchiveMapImpl;
 import ru.inno.hw.ex1.model.Person;
 import ru.inno.hw.ex1.model.Pet;
 import ru.inno.hw.ex1.model.Sex;
@@ -41,5 +39,6 @@ public class MainTree {
         petArchive.findByNickName("Мурзик");
         petArchive.modifyById(3, null, null, 18);
         System.out.println(petArchive.findByNickName("Пончик"));
+        petArchive.printAll();
     }
 }

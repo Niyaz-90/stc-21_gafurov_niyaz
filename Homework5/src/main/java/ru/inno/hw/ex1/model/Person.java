@@ -1,6 +1,5 @@
 package ru.inno.hw.ex1.model;
 
-import java.util.Comparator;
 
 public class Person {
     private String name;

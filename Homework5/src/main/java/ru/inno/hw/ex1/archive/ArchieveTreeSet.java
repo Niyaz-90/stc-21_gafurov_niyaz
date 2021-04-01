@@ -1,6 +1,5 @@
 package ru.inno.hw.ex1.archive;
 
-import com.sun.istack.internal.Nullable;
 import ru.inno.hw.ex1.model.Person;
 import ru.inno.hw.ex1.model.Pet;
 
@@ -16,6 +15,7 @@ public class ArchieveTreeSet<K extends Pet> {
 
     public boolean addPet(K key) {
         return treeSetArchive.add(key);
+
     }
 
     public Pet findByNickName(String nickName) {
@@ -28,24 +28,28 @@ public class ArchieveTreeSet<K extends Pet> {
         return null;
     }
 
-    public void modifyById(int id, @Nullable String nickname, @Nullable Person person, @Nullable int weight) {
-        for (Pet pet :
-                treeSetArchive) {
-            if (pet.getPetId() == id){
-                if (nickname != null){
+    public void modifyById(int id, String nickname, Person person, int weight) {
+        boolean isPresent = false;
+        for (Pet pet : treeSetArchive) {
+            if (pet.getPetId() == id) {
+                isPresent = true;
+                if (nickname != null) {
                     pet.setNickname(nickname);
                 }
-                 if (person != null){
-                     pet.setPerson(person);
-                 }
-                 if (weight != -1){
-                     pet.setWeight(weight);
-                 }
+                if (person != null) {
+                    pet.setPerson(person);
+                }
+                if (weight != -1) {
+                    pet.setWeight(weight);
+                }
             }
+        }
+        if (!isPresent){
+            System.out.println("Cannot find pet by id " + id);
         }
     }
 
-    public void printAllSorted() {
+    public void printAll() {
 
         for (Pet pet :
                 treeSetArchive) {

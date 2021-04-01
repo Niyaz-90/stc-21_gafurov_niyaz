@@ -48,11 +48,11 @@ public class Main {
         petArchive.addPet(ponchik3.getPetId(), ponchik3);
         petArchive.addPet(murzik9.getPetId(), murzik9);
 
-        petArchive.printAllSorted();
+        petArchive.printAll();
         System.out.println("---------");
         System.out.println( petArchive.findByNickName("Пончик"));
         petArchive.findByNickName("Арчи");
-        petArchive.modifyById(6).setWeight(2);
-        petArchive.printAllSorted();
+        petArchive.modifyById(6, null, ivan, 2);
+        petArchive.printAll();
     }
 }

@@ -7,7 +7,7 @@ public class Pet implements Comparable<Pet> {
     private int petId;
     private String nickname;
     private Person person;
-    private int weight; // лучше было бы Double
+    private int weight;
 
     public Pet(String nickname, Person person, int weight) {
         this.petId = id++;
