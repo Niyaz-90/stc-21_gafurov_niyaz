@@ -12,72 +12,63 @@ import java.util.List;
 import java.util.Scanner;
 
 public class ClassAdder {
-    private List<String>  codeLines;
+    private List<String> codeLines;
 
     public ClassAdder() {
         this.codeLines = new ArrayList<>();
     }
 
     public void add() {
-        Scanner scanner = new Scanner(System.in);
-
+//        Scanner scanner = new Scanner(System.in);
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         try {
-        File file = new File("MyClass.java");
-        file.createNewFile();
+            File file = new File("MyClass.java");
+            file.createNewFile();
 
-        BufferedWriter writer = new BufferedWriter(new FileWriter("MyClass.java"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("MyClass.java"));
 
-//        String codeFragment = "System.out.println(\"Загружен пользовательский класс\");\n" +
-//            "System.out.println(\"- - - - - - - -\");\n" +
-//            "System.out.println(\"Начинаю вычисления\");\n" +
-//            "int i = 5;\n" +
-//            "System.out.println(\" i = \" + i);\n" +
-//            "int a = 10;\n" +
-//            "System.out.println(\" i = \" + a);\n" +
-//            "System.out.println(\"i + a = \" + (i + a));\n";
-
-
-
-            StringBuilder codeFragment = new StringBuilder();
-            while (!"".equals(scanner.nextLine())){
-                codeLines.add(scanner.nextLine());
+            while (!"".equals(bufferedReader.readLine())) {
+                codeLines.add(bufferedReader.readLine());
             }
-//            while (!scanner.nextLine().equals("")){
-//                codeFragment.append(scanner.nextLine());
-//            }
-            String code = "public class MyClass{ \n public void doWork(){\n" + codeFragment +
+
+
+            String code = "public class MyClass{ \n public void doWork(){ \n" + insertCodeLines() +
                     "\n}\n}";
 
-        writer.write(code);
-        writer.flush();
+            writer.write(code);
+            writer.flush();
 
-        File root = new File("MyClass.class");
-        root.createNewFile();
-        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(root));
+            File root = new File("MyClass.class");
+            root.createNewFile();
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(root));
 
-        JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-        compiler.run(null, stream, null, file.getPath());
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            compiler.run(null, stream, null, file.getPath());
 
-        ClassLoader classLoader = new CustomClassLoader();
+            ClassLoader classLoader = new CustomClassLoader();
 
-        Class<?> myClass = Class.forName("MyClass", true, classLoader);
-        Object obj = myClass.newInstance();
-        Method method = myClass.getMethod("doWork");
-        method.invoke(obj);
+            Class<?> myClass = Class.forName("MyClass", true, classLoader);
+            Object obj = myClass.newInstance();
+            Method method = myClass.getMethod("doWork");
+            method.invoke(obj);
 
-        } catch (ClassNotFoundException | IOException e){
+        } catch (ClassNotFoundException | IOException e) {
             System.out.println("Problems\n");
 
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
+        } catch (IllegalAccessException | InstantiationException | NoSuchMethodException
+                | InvocationTargetException e) {
             e.printStackTrace();
         }
     }
 
+    private String insertCodeLines() {
+        StringBuilder result = new StringBuilder();
+        for (String line :
+                codeLines) {
+            result.append(line);
+        }
+        return result.toString();
     }
+
+}
