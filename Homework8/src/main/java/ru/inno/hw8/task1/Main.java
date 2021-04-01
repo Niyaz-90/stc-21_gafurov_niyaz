@@ -14,13 +14,11 @@ public class Main {
         scanner.nextLine();
         Random random = new Random();
         int[] numbers = new int[30];
-        for (int i = 0; i < numbers.length; i++) {
+        for (int i = 1; i < numbers.length; i++) {
             numbers[i] = random.nextInt(10);
         }
         FactarialCalculator calculator = new FactarialCalculator(numbers);
         calculator.calculate();
 
-
-//
     }
 }
