@@ -19,31 +19,36 @@ public class ClassAdder {
     }
 
     public void add() {
-//        Scanner scanner = new Scanner(System.in);
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
         try {
-            File file = new File("MyClass.java");
-            file.createNewFile();
+            File root = new File("MyClass.java");
+            root.createNewFile();
 
             BufferedWriter writer = new BufferedWriter(new FileWriter("MyClass.java"));
 
-            while (!"".equals(bufferedReader.readLine())) {
-                codeLines.add(bufferedReader.readLine());
+            StringBuilder line = new StringBuilder();
+            String subLine;
+            do {
+                subLine = bufferedReader.readLine();
+                if (!"".equals(subLine)) {
+                    line.append(subLine).append("\n");
+                    codeLines.add(line.toString());
+                }
             }
-
+            while (!"".equals(subLine));
 
             String code = "public class MyClass{ \n public void doWork(){ \n" + insertCodeLines() +
-                    "\n}\n}";
+                    "\n} \n}";
 
             writer.write(code);
             writer.flush();
 
-            File root = new File("MyClass.class");
-            root.createNewFile();
-            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(root));
+            File compiledFile = new File("MyClass.class");
+            compiledFile.createNewFile();
+            BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(compiledFile));
 
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
-            compiler.run(null, stream, null, file.getPath());
+            compiler.run(null, stream, null, root.getPath());
 
             ClassLoader classLoader = new CustomClassLoader();
 
