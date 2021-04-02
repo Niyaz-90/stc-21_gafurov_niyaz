@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 public class FactarialCalculator extends Thread {
     private volatile int[] array;
     private final ExecutorService service = Executors.newFixedThreadPool(4);
-    private BigInteger[] factarialsArray;
+    private volatile BigInteger[] factarialsArray;
 
     public FactarialCalculator(int[] array) {
         this.array = array;
