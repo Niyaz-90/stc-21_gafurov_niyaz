@@ -20,7 +20,7 @@ public class Main {
         Generator generator = new Generator();
         String path = "resultPath";
 
-        generator.getFiles(path, 3, 10, words, 10);
+        generator.getFiles(path, 3, 10, words, 5);
 
         System.out.println("that s all");
     }

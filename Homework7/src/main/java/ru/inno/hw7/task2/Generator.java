@@ -40,6 +40,12 @@ public class Generator {
 
                         // флаг - содержит предложение запятую или нет
                         boolean containsComma = random.nextBoolean();
+                        int commaIndex = -1;
+
+                        // положение запятой в предложении
+                        if (containsComma & sentenceSize > 1) {
+                            commaIndex = random.nextInt(sentenceSize) - 1;
+                        }
 
                         // флаг - удовлетворяет условию вероятности(слово из массива)
                         // для каждого предложения
@@ -58,38 +64,40 @@ public class Generator {
 //                                continue;
                             }
 
-                            // положение запятой в предложении
-                            int commaIndex = random.nextInt(sentenceSize);
 
+
+                            if (commaIndex != -1 & j == commaIndex) {
+                                wordBuilder.append(",");
+                            }
                             // генерируем слово из списка
                             wordBuilder.append(" " + generateWord());
 
-                            if (sentenceSize == 1) {
-                                wordBuilder.setCharAt(1, Character.toUpperCase(wordBuilder.charAt(1)));
-                                wordBuilder.append(punctMarksArray[random.nextInt(punctMarksArray.length)]);
-                                continue;
-                            }
-
-                            //если оно первое, то первую букву делаем заглавной
-                            else if (j == 0) {
-                                wordBuilder.setCharAt(1, Character.toUpperCase(wordBuilder.charAt(1)));
-                            }
-
-                            // если последнее, то поставить точку
-                            else if (j == sentenceSize - 1) {
-                                wordBuilder.append(punctMarksArray[random.nextInt(punctMarksArray.length)]);
-                            }
+//                            if (sentenceSize == 1) {
+//                                wordBuilder.setCharAt(1, Character.toUpperCase(wordBuilder.charAt(1)));
+//                                wordBuilder.append(punctMarksArray[random.nextInt(punctMarksArray.length)]);
+//                                continue;
+//                            }
+//
+//                            //если оно первое, то первую букву делаем заглавной
+//                            else if (j == 0) {
+//                                wordBuilder.setCharAt(1, Character.toUpperCase(wordBuilder.charAt(1)));
+//                            }
+//
+//                            // если последнее, то поставить точку
+//                            else if (j == sentenceSize - 1) {
+//                                wordBuilder.append(punctMarksArray[random.nextInt(punctMarksArray.length)]);
+//                            }
 
                             // если предложение содержит запятую - поставить её
-                            else if (containsComma & j == commaIndex) {
-                                wordBuilder.append(",");
-                            }
+
 
                             // добавляем слово к предложению
                             sentenceBuilder.append(wordBuilder);
 
 
                         }
+                        sentenceBuilder.setCharAt(1, Character.toUpperCase(sentenceBuilder.charAt(1)));
+                        sentenceBuilder.append(punctMarksArray[random.nextInt(punctMarksArray.length)]);
 
                         writer.write(sentenceBuilder.toString());
 
