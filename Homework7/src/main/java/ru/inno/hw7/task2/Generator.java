@@ -53,7 +53,7 @@ public class Generator {
 
                             // если попали в диапазон вероятности
                             if (containsArraysWord & !isPresent & wordPosition == j) {
-                                wordBuilder.append(" ").append(words[random.nextInt(words.length)]).append("("+ isPresent + ")"); //append(" ").append(...) без конкатенации
+                                wordBuilder.append(" ").append(words[random.nextInt(words.length)].toUpperCase());
                                 isPresent = true;
 //                                continue;
                             }
