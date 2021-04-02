@@ -20,8 +20,9 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
 
     @Override
     public boolean addPet(K key, V pet) {
-        if (!archiveMap.containsKey(key)) {
-
+        if (!archiveMap.containsKey(key)) {  //проверка через contains т.к. put добавит объект и только потом
+            // возратит предыдущий объект(а значит заменит новым) или null
+            isSorted = false;
             archiveMap.put(key, pet);
             System.out.println("New pet successfully added");
             return true;
@@ -42,7 +43,7 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
     public Pet findByNickName(String nickName) {
 
         for (Map.Entry entry : archiveMap.entrySet()) {
-            Pet pet = (Pet) entry.getKey();
+            Pet pet = (Pet) entry.getValue();
             if (pet.getNickname().equals(nickName)) {
                 return pet;
             }
@@ -55,18 +56,18 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
 
     @Override
     public void modifyById(int id, String nickname, Person person, int weight) {
-        if (archiveMap.containsKey(id)) {
+        if (archiveMap.containsKey(id)) {  //archivemap.get() better
             Pet pet = archiveMap.get(id);
 
-                if (nickname != null) {
-                    pet.setNickname(nickname);
-                }
-                if (person != null) {
-                    pet.setPerson(person);
-                }
-                if (weight != -1) {
-                    pet.setWeight(weight);
-                }
+            if (nickname != null) {
+                pet.setNickname(nickname);
+            }
+            if (person != null) {
+                pet.setPerson(person);
+            }
+            if (weight != -1) {
+                pet.setWeight(weight);
+            }
 
         } else {
             System.out.println("Incorrect ID, cannot find pet with such ID" + id);
@@ -88,10 +89,11 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
                     }
                 }
             }
+            isSorted = true;
         }
 
         for (Pet pet : pets) {
-            pet.toString();
+            System.out.println(pet.toString());
         }
 
 

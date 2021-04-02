@@ -36,6 +36,7 @@ public class Main {
         Pet reks7 = new Pet("Рекс", ivan, 9);
         Pet murzik8 = new Pet("Мурзик", marina, 3);
         Pet murzik9 = new Pet("Мурзик", roma, 6);
+        Pet customPet = new Pet("Алабай", marina, 5555);
         Archive<Integer, Pet> petArchive = new ArchiveMapImpl<>();
         petArchive.addPet(tuzik1.getPetId(), tuzik1);
         petArchive.addPet(belka2.getPetId(), belka2);
@@ -49,6 +50,7 @@ public class Main {
         petArchive.addPet(murzik9.getPetId(), murzik9);
 
         petArchive.printAll();
+        petArchive.addPet(customPet.getPetId(), customPet);
         System.out.println("---------");
         System.out.println( petArchive.findByNickName("Пончик"));
         petArchive.findByNickName("Арчи");
