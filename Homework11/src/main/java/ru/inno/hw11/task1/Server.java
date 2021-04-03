@@ -1,32 +1,32 @@
 package ru.inno.hw11.task1;
 
+import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.Scanner;
 
 public class Server {
 
-    ExecutorService clientThread = Executors.newCachedThreadPool();
-    private List<SocketClient> users = new ArrayList<>();
-    Socket user = new Socket();
-    Socket newUser = new Socket();
+    protected static List<SocketThread> users;
+    Scanner scanner = new Scanner(System.in);
 
-    public void start(){
-        ServerSocket serverSocket = new ServerSocket(34642);
-        while (true){
-            Runnable newUserThread = () => {
-                if (newUser != null){
-                    newUser = serverSocket.accept();
-                }
+    public void start() {
+
+        try {
+            ServerSocket serverSocket = new ServerSocket(34642);
+            while (true) {
+                Socket socket = serverSocket.accept();
+                System.out.println("пользователь " + socket.getInetAddress() + "подключился к серверу");
+                SocketThread socketThread = new SocketThread(socket);
+                socketThread.setUsername();
+                users.add(socketThread);
             }
-            user = serverSocket.accept();
-
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+
+
     }
-
-
-
 }
