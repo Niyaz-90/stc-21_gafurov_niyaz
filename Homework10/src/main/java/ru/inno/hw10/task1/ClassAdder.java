@@ -18,12 +18,14 @@ public class ClassAdder {
     }
 
     public void add() {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        try {
+
+        try( BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+             BufferedWriter writer = new BufferedWriter(new FileWriter("MyClass.java"))
+        ) {
             File root = new File("MyClass.java");
             root.createNewFile();
 
-            BufferedWriter writer = new BufferedWriter(new FileWriter("MyClass.java"));
+
 
             StringBuilder line = new StringBuilder();
             String subLine;
@@ -48,6 +50,7 @@ public class ClassAdder {
 
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             compiler.run(null, stream, null, root.getPath());
+            stream.close();
 
             ClassLoader classLoader = new CustomClassLoader();
 
