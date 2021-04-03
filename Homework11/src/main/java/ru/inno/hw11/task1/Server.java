@@ -9,8 +9,11 @@ import java.util.Scanner;
 
 public class Server {
 
-    protected static List<SocketThread> users;
+    protected volatile static List<SocketThread> users = new ArrayList<>();
     Scanner scanner = new Scanner(System.in);
+
+    public Server() {
+    }
 
     public void start() {
 
@@ -18,10 +21,20 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(34642);
             while (true) {
                 Socket socket = serverSocket.accept();
-                System.out.println("пользователь " + socket.getInetAddress() + "подключился к серверу");
-                SocketThread socketThread = new SocketThread(socket);
-                socketThread.setUsername();
-                users.add(socketThread);
+                Thread newThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        System.out.println("пользователь " + socket.getInetAddress() + "подключился к серверу");
+
+                        SocketThread socketThread = new SocketThread(socket);
+                        socketThread.setUsername();
+                        users.add(socketThread);
+                        socketThread.start();
+                    }
+                });
+                newThread.start();
+
+//                socketThread.start();
             }
         } catch (IOException e) {
             e.printStackTrace();

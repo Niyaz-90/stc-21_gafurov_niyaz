@@ -6,14 +6,11 @@ import java.net.Socket;
 public class MainClient {
 
     public static void main(String[] args) {
-        Socket socket = null;
         try {
-            socket = new Socket("localhost", 34642);
+            Socket socket = new Socket("localhost", 34642);
+            SocketClient client = new SocketClient(socket);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        SocketClient client = new SocketClient(socket);
-        client.recieveMessagesTask.run();
-        client.sendMessagesTask.run();
     }
 }
