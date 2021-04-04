@@ -2,12 +2,11 @@ package ru.inno.hw11.task1;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
 
 public class SocketClient {
     private Socket socket;
     private DataOutputStream toServer;
-    private BufferedReader fromServer;
+    private volatile BufferedReader fromServer;
     private BufferedReader consoleReader;
 
     public SocketClient(Socket socket) {
@@ -24,19 +23,26 @@ public class SocketClient {
     }
 
 
-    Thread sendMessage = new Thread(new Runnable() {
+    volatile Thread sendMessage = new Thread(new Runnable() {
         @Override
         public void run() {
-            System.out.println("sendmessages is run");
-//            Scanner scanner = new Scanner(System.in);
-
             try {
+                System.out.println("sendmessages is run");
+
+
                 while (true) {
                     System.out.println("Введите сообщение: ");
                     String message = consoleReader.readLine();
                     toServer.writeUTF(message + "\n");
                     toServer.flush();
-//                    System.out.println(message);
+
+                    if ("quit".equals(message)) {
+                        consoleReader.close();
+                        fromServer.close();
+                        toServer.close();
+                        socket.close();
+                        break;
+                    }
                 }
             } catch (IOException e) {
                 e.printStackTrace();
@@ -51,18 +57,13 @@ public class SocketClient {
             System.out.println("reciever is run");
             String message = null;
             try {
-            while (true) {
+                while (true) {
 
-//                    if (fromServer.) {
-                        message = fromServer.readLine();
-//                        System.out.println(message);
-//                    }
-
-                if ("quit".equals(message)) {
+                    message = fromServer.readLine();
                     System.out.println(message);
-                    break;
+
+
                 }
-            }
             } catch (IOException e) {
                 e.printStackTrace();
             }
