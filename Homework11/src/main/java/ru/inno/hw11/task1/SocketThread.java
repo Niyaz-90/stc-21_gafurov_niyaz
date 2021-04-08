@@ -2,19 +2,15 @@ package ru.inno.hw11.task1;
 
 import java.io.*;
 import java.net.Socket;
-import java.net.SocketException;
-import java.security.SecureRandom;
 import java.util.Objects;
-import java.util.Scanner;
 
-import ru.inno.hw11.task1.Server;
 
 public class SocketThread extends Thread {
     public String username;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
-    private Scanner scanner= new Scanner(System.in);
+    ;
 
     public SocketThread(Socket socket) {
         try {
@@ -31,7 +27,7 @@ public class SocketThread extends Thread {
             sendMessage("Введите ваше имя");
             this.username = in.readLine();
             for (SocketThread user : Server.users) {
-                user.sendMessage( username + " joined to this chat");
+                user.sendMessage(username + " joined to this chat");
             }
 
         } catch (IOException e) {
@@ -56,11 +52,11 @@ public class SocketThread extends Thread {
     @Override
     public void run() {
         String message;
-        while (true){
+        while (true) {
             try {
                 message = in.readLine();
                 String[] messageLine = message.split(" ");
-                switch (messageLine[0]){
+                switch (messageLine[0]) {
                     case "quit":
                         out.close();
                         in.close();
@@ -70,18 +66,18 @@ public class SocketThread extends Thread {
 
                         for (SocketThread user : Server.users) {
 
-                                user.sendMessage(username + " покинул чат");
+                            user.sendMessage(username + " покинул чат");
 
                         }
                         return;
 
                     case "to":
                         StringBuilder builder = new StringBuilder();
-                        for(int i = 2; i < messageLine.length; i++){
+                        for (int i = 2; i < messageLine.length; i++) {
                             builder.append(" ").append(messageLine[i]);
                         }
                         for (SocketThread user : Server.users) {
-                            if (user.username.equals(messageLine[1])){
+                            if (user.username.equals(messageLine[1])) {
                                 user.sendMessage("личное сообщение от " + this.username + ": " + builder.toString());
                                 break;
                             }
@@ -91,24 +87,24 @@ public class SocketThread extends Thread {
                     default:
 
                         for (SocketThread user : Server.users) {
-                            if (user.equals(this)){
+                            if (user.equals(this)) {
                                 continue;
                             }
-                            user.sendMessage( username + " говорит: " + message);
+                            user.sendMessage(username + " говорит: " + message);
                         }
                         break;
                 }
 
             } catch (IOException e) {
-               Thread.currentThread().interrupt();
+                Thread.currentThread().interrupt();
             }
         }
     }
 
-    public void sendMessage(String message){
+    public void sendMessage(String message) {
 
-            out.print(message + "\n");
-            out.flush();
+        out.print(message + "\n");
+        out.flush();
 
     }
 }

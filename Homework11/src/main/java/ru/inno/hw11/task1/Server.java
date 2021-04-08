@@ -5,12 +5,10 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class Server {
 
     protected volatile static List<SocketThread> users = new ArrayList<>();
-    Scanner scanner = new Scanner(System.in);
 
     public Server() {
     }
@@ -34,7 +32,6 @@ public class Server {
                 });
                 newThread.start();
 
-//                socketThread.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
