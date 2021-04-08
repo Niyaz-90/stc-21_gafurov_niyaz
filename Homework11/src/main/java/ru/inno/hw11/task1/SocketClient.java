@@ -15,7 +15,7 @@ public class SocketClient {
             this.toServer = new PrintWriter(socket.getOutputStream());
             this.fromServer = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.consoleReader = new BufferedReader(new InputStreamReader(System.in));
-            recieveMessage.start();
+            receiveMessage.start();
             sendMessage.start();
         } catch (IOException e) {
             e.printStackTrace();
@@ -27,7 +27,7 @@ public class SocketClient {
         @Override
         public void run() {
             try {
-                System.out.println("sendmessages is run");
+                System.out.println("sendmessage is run");
 
 
                 while (true) {
@@ -38,21 +38,9 @@ public class SocketClient {
 
                     if ("quit".equals(message)) {
                         consoleReader.close(); // TODO: 05.04.2021 проблема начинается здеся!
-                        recieveMessage.interrupt();
+                        receiveMessage.interrupt();
                         break;
-                    } else if ("Введите ваше имя".equals(fromServer.readLine())) {
-                        while (true) {
 
-                            // TODO: 05.04.2021 доделать "вместо имени введут "quit""
-
-                            String name = consoleReader.readLine();
-                            if ("quit".equals(name)) {
-                                System.out.println("name cannot be \"quit\"");
-                            } else {
-                                toServer.write(name);
-                                toServer.flush();
-                            }
-                        }
                     }
                 }
             } catch (IOException e) {
@@ -62,13 +50,13 @@ public class SocketClient {
         }
     });
 
-    Thread recieveMessage = new Thread(new Runnable() {
+    Thread receiveMessage = new Thread(new Runnable() {
         @Override
         public void run() {
-            System.out.println("reciever is run");
+            System.out.println("receiver is run");
             try {
                 while (true) {
-                    if (recieveMessage.isInterrupted()) {
+                    if (receiveMessage.isInterrupted()) {
                         fromServer.close();
                         toServer.close();
                         socket.close();

@@ -2,6 +2,7 @@ package ru.inno.hw11.task1;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.security.SecureRandom;
 import java.util.Objects;
 import java.util.Scanner;
@@ -69,15 +70,19 @@ public class SocketThread extends Thread {
 
                         for (SocketThread user : Server.users) {
 
-                                user.sendMessage(username + " leave this chat");
+                                user.sendMessage(username + " покинул чат");
 
                         }
                         return;
 
                     case "to":
+                        StringBuilder builder = new StringBuilder();
+                        for(int i = 2; i < messageLine.length; i++){
+                            builder.append(" ").append(messageLine[i]);
+                        }
                         for (SocketThread user : Server.users) {
                             if (user.username.equals(messageLine[1])){
-                                user.sendMessage("from " + this.username + " " + message);
+                                user.sendMessage("личное сообщение от " + this.username + ": " + builder.toString());
                                 break;
                             }
 
@@ -95,7 +100,7 @@ public class SocketThread extends Thread {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+               Thread.currentThread().interrupt();
             }
         }
     }
