@@ -14,7 +14,6 @@ public class Server {
     }
 
     public void start() {
-
         try {
             ServerSocket serverSocket = new ServerSocket(34642);
             while (true) {
@@ -23,20 +22,15 @@ public class Server {
                     @Override
                     public void run() {
                         System.out.println("пользователь " + socket.getInetAddress() + "подключился к серверу");
-
                         SocketThread socketThread = new SocketThread(socket);
-                        socketThread.setUsername();
                         users.add(socketThread);
                         socketThread.start();
                     }
                 });
                 newThread.start();
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 }

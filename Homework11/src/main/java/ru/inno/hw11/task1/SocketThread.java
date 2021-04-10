@@ -1,41 +1,31 @@
 package ru.inno.hw11.task1;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Objects;
-
 
 public class SocketThread extends Thread {
     public String username;
     private Socket socket;
     private BufferedReader in;
     private PrintWriter out;
-    ;
-
     public SocketThread(Socket socket) {
         try {
             this.socket = socket;
             this.in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.out = new PrintWriter(socket.getOutputStream());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setUsername() {
-        try {
-            sendMessage("Введите ваше имя");
             this.username = in.readLine();
+            System.out.println(username + " connected to server");
             for (SocketThread user : Server.users) {
                 user.sendMessage(username + " joined to this chat");
             }
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -43,12 +33,10 @@ public class SocketThread extends Thread {
         SocketThread that = (SocketThread) o;
         return username.equals(that.username) && socket.equals(that.socket);
     }
-
     @Override
     public int hashCode() {
         return Objects.hash(username, socket);
     }
-
     @Override
     public void run() {
         String message;
@@ -65,12 +53,9 @@ public class SocketThread extends Thread {
                         Server.users.remove(this);
 
                         for (SocketThread user : Server.users) {
-
                             user.sendMessage(username + " покинул чат");
-
                         }
                         return;
-
                     case "to":
                         StringBuilder builder = new StringBuilder();
                         for (int i = 2; i < messageLine.length; i++) {
@@ -81,11 +66,9 @@ public class SocketThread extends Thread {
                                 user.sendMessage("личное сообщение от " + this.username + ": " + builder.toString());
                                 break;
                             }
-
                         }
                         break;
                     default:
-
                         for (SocketThread user : Server.users) {
                             if (user.equals(this)) {
                                 continue;
@@ -100,11 +83,8 @@ public class SocketThread extends Thread {
             }
         }
     }
-
     public void sendMessage(String message) {
-
         out.print(message + "\n");
         out.flush();
-
     }
 }
