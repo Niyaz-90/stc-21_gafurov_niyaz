@@ -1,17 +1,29 @@
 package ru.inno.hw.task1;
 
+import java.util.Scanner;
+
 public class MemoryLeak {
     private static StringBuilder k;
     public static void main(String[] args) {
-        int count = 20;
+        int count = 10;
+        Scanner scanner = new Scanner(System.in);
+        scanner.nextLine();
         while (true) {
             k = new StringBuilder();
             String[] array = new String[count];
-            for (int i = 1; i > array.length; i++) {
-                array[i] = k.append("trtrt").append(array[i - 1]).toString();
-                System.out.println(array[i]);
+            for (int i = 0; i < array.length; i++) {
+                array[i] = k.append("trtrt").toString();
+                System.out.println("free memory: " + Runtime.getRuntime().freeMemory());
+                if (i%2 == 0){
+                    array[i] = array[i] + k.append("wwqqw");
+                }
             }
-            count *= 5;
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            count *= 2;
         }
     }
 }
