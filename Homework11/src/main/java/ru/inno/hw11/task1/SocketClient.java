@@ -36,7 +36,7 @@ public class SocketClient {
             e.printStackTrace();
         }
     }
-    volatile Thread sendMessage = new Thread(new Runnable() {
+    Thread sendMessage = new Thread(new Runnable() {
         @Override
         public void run() {
             try {

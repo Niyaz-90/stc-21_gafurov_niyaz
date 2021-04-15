@@ -13,11 +13,13 @@ public class FactarialCalculator extends Thread {
     private volatile List<BigInteger> factorialsArray;
     private boolean isMaxFound = false;
     private int maxValue;
+
     public FactarialCalculator(int[] array) {
         this.array = array;
         this.factorialsArray = new ArrayList<>();
         this.maxValue = Arrays.stream(array).max().getAsInt();
     }
+
     public void calculate() {
         factorialsArray.add(new BigInteger("0"));
         calculateMaxFactorial();

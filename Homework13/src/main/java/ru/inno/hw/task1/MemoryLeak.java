@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class MemoryLeak {
     private static StringBuilder k;
     public static void main(String[] args) {
-        int count = 10;
+        int count = 10;// можно убрать
         Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
         while (true) {
@@ -23,7 +23,7 @@ public class MemoryLeak {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            count *= 2;
+            count *= 2;// можно убрать
         }
     }
 }
