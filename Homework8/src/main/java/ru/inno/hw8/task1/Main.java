@@ -6,13 +6,9 @@ import java.util.Random;
 Дан массив случайных чисел. Написать программу для вычисления факториалов всех элементов
  массива. Использовать пул потоков для решения задачи.
 
- Фактариал вычисленный для одного числа, сохраняется
-  в массиве factarialsArray(в классе FactarialCalculator)
  */
 public class Main {
     public static void main(String[] args) {
-
-
         Random random = new Random();
         int[] numbers = new int[30];
         for (int i = 1; i < numbers.length; i++) {
@@ -20,6 +16,5 @@ public class Main {
         }
         FactarialCalculator calculator = new FactarialCalculator(numbers);
         calculator.calculate();
-
     }
 }
