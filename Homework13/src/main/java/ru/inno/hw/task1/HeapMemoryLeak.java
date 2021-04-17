@@ -1,13 +1,9 @@
 package ru.inno.hw.task1;
 
-import java.util.Scanner;
-
-public class MemoryLeak {
+public class HeapMemoryLeak {
     private static StringBuilder k;
     public static void main(String[] args) {
-        int count = 10;// можно убрать
-        Scanner scanner = new Scanner(System.in);
-        scanner.nextLine();
+        int count = 10;
         while (true) {
             k = new StringBuilder();
             String[] array = new String[count];
@@ -18,12 +14,7 @@ public class MemoryLeak {
                     array[i] = array[i] + k.append("wwqqw");
                 }
             }
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            count *= 2;// можно убрать
+            count *= 2;
         }
     }
 }
