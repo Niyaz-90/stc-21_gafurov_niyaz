@@ -77,29 +77,12 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
 
     @Override
     public void printAll() {
-
-//        Pet[] pets = archiveMap.values().toArray(new Pet[archiveMap.values().size()]);
-
         if (!isSorted) {
            archiveMap.values().stream().sorted(Pet::compareTo).forEach(System.out::println);
-
-//            for (int i = 0; i < pets.length; i++) {
-//                for (int j = pets.length - 1; j > i; j--) {
-//
-//                    if (pets[j].compareTo(pets[j - 1]) < 0) {
-//                        swap(pets, j, j - 1);
-//                    }
-//                }
-//            }
             isSorted = true;
+        } else {
+            archiveMap.values().stream().forEach(System.out::println);
         }
-        archiveMap.values().stream().forEach(System.out::println);
-
-//        for (Pet pet : pets) {
-//            System.out.println(pet.toString());
-//        }
-
-
     }
 
     private void swap(Pet[] pets, int i1, int i2) {
