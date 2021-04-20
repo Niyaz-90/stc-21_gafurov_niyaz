@@ -5,6 +5,4 @@ public class Bird extends Pet{
         super(petType, nickname, person, weight);
         System.out.println("bird is created");
     }
-
-
 }

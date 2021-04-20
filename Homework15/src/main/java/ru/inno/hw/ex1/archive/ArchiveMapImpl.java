@@ -3,13 +3,11 @@ package ru.inno.hw.ex1.archive;
 import ru.inno.hw.ex1.exception.DuplicateException;
 import ru.inno.hw.ex1.model.Person;
 import ru.inno.hw.ex1.model.Pet;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
     private Map<K, V> archiveMap;
-    private Pet pet;
     private boolean isSorted;
 
     public ArchiveMapImpl() {
@@ -17,16 +15,13 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
         this.isSorted = false;
     }
 
-
     @Override
     public boolean addPet(K key, V pet) {
-        if (!archiveMap.containsKey(key)) {  //проверка через contains т.к. put добавит объект и только потом
-            // возратит предыдущий объект(а значит заменит новым) или null
+        if (!archiveMap.containsKey(key)) {
             isSorted = false;
             archiveMap.put(key, pet);
             System.out.println("New pet successfully added");
             return true;
-
         } else {
             try {
                 throw new DuplicateException();
@@ -35,30 +30,24 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
                 return false;
             }
         }
-
     }
-
 
     @Override
     public Pet findByNickName(String nickName) {
-
         for (Map.Entry entry : archiveMap.entrySet()) {
             Pet pet = (Pet) entry.getValue();
             if (pet.getNickname().equals(nickName)) {
                 return pet;
             }
         }
-
         System.out.println("Pet with such nickname not found");
         return null;
     }
 
-
     @Override
     public void modifyById(int id, String nickname, Person person, int weight) {
-        if (archiveMap.containsKey(id)) {  //archivemap.get() better
+        if (archiveMap.containsKey(id)) {
             Pet pet = archiveMap.get(id);
-
             if (nickname != null) {
                 pet.setNickname(nickname);
             }
@@ -68,7 +57,6 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
             if (weight != -1) {
                 pet.setWeight(weight);
             }
-
         } else {
             System.out.println("Incorrect ID, cannot find pet with such ID" + id);
         }
@@ -76,14 +64,10 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
 
     @Override
     public void printAll() {
-
         Pet[] pets = archiveMap.values().toArray(new Pet[archiveMap.values().size()]);
-
         if (!isSorted) {
-
             for (int i = 0; i < pets.length; i++) {
                 for (int j = pets.length - 1; j > i; j--) {
-
                     if (pets[j].compareTo(pets[j - 1]) < 0) {
                         swap(pets, j, j - 1);
                     }
@@ -91,12 +75,9 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
             }
             isSorted = true;
         }
-
         for (Pet pet : pets) {
             System.out.println(pet.toString());
         }
-
-
     }
 
     private void swap(Pet[] pets, int i1, int i2) {

@@ -54,7 +54,6 @@ public abstract class Pet implements Comparable<Pet> {
         this.weight = weight;
     }
 
-
     public static Pet create(String petType, String nickname, Person person, int weight){
         switch (petType){
             case "dog":
@@ -67,6 +66,7 @@ public abstract class Pet implements Comparable<Pet> {
                 return null;
         }
     }
+
     @Override
     public int compareTo(Pet o) {
         int value1 = this.getPerson().getName().compareTo(o.getPerson().getName());
@@ -86,14 +86,6 @@ public abstract class Pet implements Comparable<Pet> {
         }
 
     }
-
-    public static Comparator<Pet> comparator = new Comparator<Pet>() {
-        @Override
-        public int compare(Pet o1, Pet o2) {
-
-            return o1.getNickname().compareTo(o2.getNickname());
-        }
-    };
 
     @Override
     public String toString() {
