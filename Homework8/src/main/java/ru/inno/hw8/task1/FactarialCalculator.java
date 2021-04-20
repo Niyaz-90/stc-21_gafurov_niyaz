@@ -3,123 +3,151 @@ package ru.inno.hw8.task1;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class FactarialCalculator extends Thread {
+
     private volatile int[] array;
     private final ExecutorService service = Executors.newFixedThreadPool(4);
     private volatile List<BigInteger> factorialsArray;
-    private boolean isMaxFound = false;
     private int maxValue;
-    private List<BigInteger> part1;
-    private List<BigInteger> part2;
-    private List<BigInteger> part3;
-    private List<BigInteger> part4;
-    private int arrayPartSize = 0;
+    private final LinkedList<BigInteger> part1;
+    private final LinkedList<BigInteger> part2;
+    private final LinkedList<BigInteger> part3;
+    private final LinkedList<BigInteger> part4;
+    private int arrayPartSize;
+
     public FactarialCalculator(int[] array) {
         this.array = array;
         this.factorialsArray = new ArrayList<>();
         this.maxValue = Arrays.stream(array).max().getAsInt();
-        this.part1 = new ArrayList<>();
-        this.part2 = new ArrayList<>();
-        this.part3 = new ArrayList<>();
-        this.part4 = new ArrayList<>();
+        this.part1 = new LinkedList<>();
+        this.part2 = new LinkedList<>();
+        this.part3 = new LinkedList<>();
+        this.part4 = new LinkedList<>();
     }
+
     public void calculate() {
-        factorialsArray.add(new BigInteger("0"));
         calculateMaxFactorial();
         for (int i : array) {
             service.submit(() -> {
                 int count = 1;
-                System.out.println(Thread.currentThread().getName() + "   i = " + i);
+//                System.out.println(Thread.currentThread().getName() + "   i = " + i);
                 BigInteger result = new BigInteger("1");
                 while (count <= i) {
                     result = factorialsArray.get(count);
-                    System.out.println("вычисление для i = " + i + " , результат вычисления "
-                            + result + " потоком " + Thread.currentThread().getName());
                     count++;
                 }
-                System.out.println("*** Поток " + Thread.currentThread().getName()
-                        + " доработал с результатом " + result);
             });
         }
         service.shutdown();
+        try {
+            Thread.currentThread().join(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+            printAll();
+
     }
     public void calculateMaxFactorial() {
 
-        int arrayPartSize2 = maxValue % 4;
         if (maxValue % 4 > 0) {
             arrayPartSize = (maxValue / 4) + 1;
         } else {
             arrayPartSize = (maxValue / 4);
         }
-        part1.add(new BigInteger("1"));
-        Runnable task1 = new Runnable() {
+        Thread task1 = new Thread( new Runnable() {
             @Override
             public void run() {
-                for (int i = 1; i < arrayPartSize; i++) {
-                    BigInteger result = part1.get(i -1).multiply(BigInteger.valueOf(i));
+                BigInteger result = new BigInteger("1");
+                for (int i = 0; i < arrayPartSize; i++) {
+                    result = result.multiply(BigInteger.valueOf(i + 1));
                     part1.add(i, result);
-                    System.out.println(i + " , result: " + result);
                 }
             }
-        };
+        });
 
-        Runnable task2 = new Runnable() {
+        Thread task2 = new Thread( new Runnable() {
             @Override
             public void run() {
-                part2.add(arrayPartSize, part1.get(arrayPartSize - 1).multiply(BigInteger.valueOf(arrayPartSize)));
-                for (int i = arrayPartSize + 1; i < 2 * arrayPartSize; i++) {
-                    BigInteger result = part2.get(i - 1).multiply(BigInteger.valueOf(i ));
+                BigInteger result = BigInteger.valueOf(arrayPartSize);
+                for (int i = 0; i < arrayPartSize; i++) {
+                    result = result.multiply(BigInteger.valueOf(i + 2 + arrayPartSize));
                     part2.add(i, result);
-                    System.out.println(i + " , result: " + result);
                 }
             }
-        };
+        });
 
-        Runnable task3 = new Runnable() {
+        Thread task3 = new Thread( new Runnable() {
             @Override
             public void run() {
-                part3.add(2 * arrayPartSize, part2.get(2 * arrayPartSize - 1).multiply(BigInteger.valueOf(BigInteger.valueOf(2 * arrayPartSize)));
-                for (int i = 2* arrayPartSize; i < 3 * arrayPartSize; i++) {
-                    BigInteger result = part3.get(i).multiply(BigInteger.valueOf(i + 1));
+                BigInteger result = BigInteger.valueOf(2 * arrayPartSize);
+                for (int i = 0; i < arrayPartSize; i++) {
+                    result = result.multiply(BigInteger.valueOf(i  + 1 +(2 * arrayPartSize)));
                     part3.add(i, result);
                 }
             }
-        };
+        });
 
-        Runnable task4 = new Runnable() {
+        Thread task4 = new Thread( new Runnable() {
             @Override
             public void run() {
-                for (int i = 3 * arrayPartSize; i < array.length;i++) {
-                    BigInteger result = part4.get(i).multiply(BigInteger.valueOf(i + 1));
+                BigInteger result = BigInteger.valueOf(2 * arrayPartSize);
+                for (int i = 0; i < arrayPartSize;i++) {
+                    result = result.multiply(BigInteger.valueOf(i  + 1 + (3 * arrayPartSize)));
                     part4.add(i, result);
                 }
             }
-        };
-        task1.run();
-        task2.run();
-        task3.run();
-        task4.run();
-        factorialsArray.addAll(1, part1);
+        });
+        task1.start();
+        task2.start();
+        task3.start();
+        task4.start();
+
+        try {
+            task4.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        refreshArrays();
+        factorialsArray.addAll( part1);
+        System.err.println("p1 = " + part1.size() + " , p2 = " + part2.size() + " , p3 = " + part3.size() + " , p4 = " + part4.size());
         factorialsArray.addAll(part2);
         factorialsArray.addAll(part3);
         factorialsArray.addAll(part4);
-        if (!isMaxFound) {
-            System.out.println(maxValue);
-            factorialsArray.add(1, BigInteger.valueOf(1));
-            Thread tr = new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    for (int j = 2; j < factorialsArray.size(); j++) {
-                        factorialsArray.add(j, factorialsArray.get(j - 1).multiply(BigInteger.valueOf(j)));
-                    }
-                }
-            });
-            tr.start();
-            isMaxFound = true;
+    }
+    public void printAll(){
+
+        for (BigInteger number : factorialsArray) {
+            System.out.println(number);
         }
+    }
+
+    private void refreshArrays(){
+        //не получается делать несколькими потоками т.к. part2 использует макс значение
+        //part1, part3 использует макс значение part2, part4 использует макс значение part3.
+        //Т.е каждый поток должен ждать окончания предыдущего, смысл в многопоточности пропадает
+        BigInteger part1MaxValue = part1.peekLast();
+        for (int i = 0; i < part2.size(); i++) {
+           part2.set(i, part2.get(i).multiply(part1MaxValue));
+        }
+        System.out.println("==" + part1MaxValue);
+
+        BigInteger part2MaxValue = part2.peekLast();
+        for (int i = 0; i < part3.size(); i++) {
+            part3.set(i, part3.get(i).multiply(part2MaxValue));
+        }
+        System.out.println("==" + part2MaxValue);
+
+        BigInteger part3MaxValue = part3.peekLast();
+        for (int i = 0; i < part4.size(); i++) {
+            part4.set(i, part4.get(i).multiply(part3MaxValue));
+        }
+        System.out.println("==" + part3MaxValue);
     }
 }
