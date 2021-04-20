@@ -1,6 +1,5 @@
 package ru.inno.hw.ex1.model;
 
-
 public class Person {
     private String name;
     private int age;
@@ -16,14 +15,6 @@ public class Person {
         return name;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public String getSex() {
-        return sex.toString();
-    }
-
     @Override
     public String toString() {
         return "{ " +
@@ -32,6 +23,4 @@ public class Person {
                 ", sex = " + sex + " " +
                 '}';
     }
-
-
 }

@@ -9,6 +9,7 @@ public abstract class Pet implements Comparable<Pet> {
     private String nickname;
     private Person person;
     private int weight;
+
     public Pet(Domesticated domesticated, String nickname, Person person, int weight) {
         this.domesticated = domesticated;
         this.petId = id++;
@@ -16,11 +17,9 @@ public abstract class Pet implements Comparable<Pet> {
         this.person = person;
         this.weight = weight;
     }
+
     public int getPetId() {
         return petId;
-    }
-    public void setPetId(int petId) {
-        this.petId = petId;
     }
     public String getNickname() {
         return nickname;
@@ -40,6 +39,7 @@ public abstract class Pet implements Comparable<Pet> {
     public void setWeight(int weight) {
         this.weight = weight;
     }
+
     @Override
     public int compareTo(Pet o) {
         int value1 = this.getPerson().getName().compareTo(o.getPerson().getName());
@@ -53,22 +53,12 @@ public abstract class Pet implements Comparable<Pet> {
         } else {
             return value1;
         }
-
     }
-    public Comparator<Pet> comparator = new Comparator<Pet>() {
-        @Override
-        public int compare(Pet o1, Pet o2) {
 
-            return o1.getNickname().compareTo(o2.getNickname());
-        }
-    };
     @Override
     public String toString() {
         return "Pet{" + " person=" + person.toString() + " " + domesticated.printStatus() +
-
-                " , nickname= '" + nickname + '\'' +
-
-                ", weight= " + weight +
+                " , nickname= '" + nickname + ", weight= " + weight +
                 '}';
     }
 }

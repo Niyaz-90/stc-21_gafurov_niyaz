@@ -9,7 +9,8 @@ import ru.inno.hw.ex1.model.*;
 питомцев разделяя их на домашних и не домашних. Классы Dog, Cat и Bird наследуются
 от абстрактного класса Pet. Pet соддержит поле интерфейса Domecticated  и принимает его реализацию
 на вход. Интерфейс Domesticated импелементируется классами Domestic и NonDomestic.
-       */
+*/
+
 public class Main {
     public static void main(String[] args) {
         Person ivan = new Person("Иван", 65, Sex.MALE);
@@ -26,7 +27,9 @@ public class Main {
         Pet murzik8 = new Cat(new NonDomestic(),"Мурзик", marina, 3);
         Pet murzik9 = new Cat(new NonDomestic(),"Мурзик", roma, 6);
         Pet customPet = new Dog(new Domestic(),"Алабай", marina, 5555);
+
         Archive<Integer, Pet> petArchive = new ArchiveMapImpl<>();
+
         petArchive.addPet(tuzik1.getPetId(), tuzik1);
         petArchive.addPet(belka2.getPetId(), belka2);
         petArchive.addPet(ponchik3.getPetId(), ponchik3);
