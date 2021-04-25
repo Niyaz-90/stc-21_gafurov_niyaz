@@ -2,8 +2,10 @@ package ru.inno.hw.ex1;
 
 import ru.inno.hw.ex1.archive.Archive;
 import ru.inno.hw.ex1.archive.ArchiveMapImpl;
+import ru.inno.hw.ex1.factory.PetFactory;
 import ru.inno.hw.ex1.model.Person;
 import ru.inno.hw.ex1.model.Pet;
+import ru.inno.hw.ex1.model.PetType;
 import ru.inno.hw.ex1.model.Sex;
 
 /*
@@ -17,16 +19,16 @@ public class Main {
         Person marina = new Person("Марина", 35, Sex.FEMALE);
         Person mariya = new Person("Мария", 23, Sex.FEMALE);
         Person roma = new Person("Роман", 34, Sex.MALE);
-        Pet tuzik1 = Pet.create("dog","Тузик", ivan, 12);
-        Pet belka2 = Pet.create("dog","Белка", roma, 8);
-        Pet ponchik3 = Pet.create("cat" ,"Пончик", marina, 16);
-        Pet strelka4 = Pet.create("dog","Стрелка", roma, 7);
-        Pet barsik5 = Pet.create("cat","Барсик", mariya, 5);
-        Pet kesha6 = Pet.create("bird", "Кеша", marina, 1);
-        Pet reks7 = Pet.create("dog","Рекс", ivan, 9);
-        Pet murzik8 = Pet.create("cat","Мурзик", marina, 3);
-        Pet murzik9 = Pet.create("cat","Мурзик", roma, 6);
-        Pet customPet = Pet.create("dog","Алабай", marina, 5555);
+        Pet tuzik1 = PetFactory.create(PetType.Dog,"Тузик", ivan, 12);
+        Pet belka2 = PetFactory.create(PetType.Dog,"Белка", roma, 8);
+        Pet ponchik3 = PetFactory.create(PetType.Cat ,"Пончик", marina, 16);
+        Pet strelka4 = PetFactory.create(PetType.Dog,"Стрелка", roma, 7);
+        Pet barsik5 = PetFactory.create(PetType.Cat,"Барсик", mariya, 5);
+        Pet kesha6 = PetFactory.create(PetType.Bird, "Кеша", marina, 1);
+        Pet reks7 = PetFactory.create(PetType.Dog,"Рекс", ivan, 9);
+        Pet murzik8 = PetFactory.create(PetType.Cat,"Мурзик", marina, 3);
+        Pet murzik9 = PetFactory.create(PetType.Cat,"Мурзик", roma, 6);
+        Pet customPet = PetFactory.create(PetType.Dog,"Алабай");
         Archive<Integer, Pet> petArchive = new ArchiveMapImpl<>();
         petArchive.addPet(tuzik1.getPetId(), tuzik1);
         petArchive.addPet(belka2.getPetId(), belka2);

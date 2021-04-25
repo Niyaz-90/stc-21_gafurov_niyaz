@@ -10,6 +10,8 @@ public abstract class Pet implements Comparable<Pet> {
     private Person person;
     private int weight;
 
+    // коммандная работа
+    // interface soundable
     public Pet(Domesticated domesticated, String nickname, Person person, int weight) {
         this.domesticated = domesticated;
         this.petId = id++;

@@ -1,25 +1,33 @@
 package ru.inno.hw.ex1.model;
 
-import java.util.Comparator;
-
 public abstract class Pet implements Comparable<Pet> {
     private static int id = 1;
     private int petId;
-    private String petType;
+    private PetType petType;
     private String nickname;
     private Person person;
     private int weight;
 
-    public Pet(String petType, String nickname, Person person, int weight) {
-        this.petType = petType;
+    public Pet(PetType petType, String nickname, Person person, int weight) {
+
         this.petId = id++;
+        this.petType = petType;
         this.nickname = nickname;
         this.person = person;
         this.weight = weight;
     }
 
+    public Pet(PetType petType, String nickname) {
+
+        this.petId = id++;
+        this.petType = petType;
+        this.nickname = nickname;
+        this.person = new Person("НЕ УКАЗАН", -1, Sex.NOT_STATED);
+        this.weight = -1;
+    }
+
     public String getPetType() {
-        return petType;
+        return petType.toString();
     }
 
     public int getPetId() {
@@ -54,19 +62,6 @@ public abstract class Pet implements Comparable<Pet> {
         this.weight = weight;
     }
 
-    public static Pet create(String petType, String nickname, Person person, int weight){
-        switch (petType){
-            case "dog":
-                return new Dog(petType, nickname, person, weight);
-            case "cat":
-                return new Cat(petType, nickname, person, weight);
-            case "bird":
-                return new Bird(petType, nickname, person, weight);
-            default:
-                return null;
-        }
-    }
-
     @Override
     public int compareTo(Pet o) {
         int value1 = this.getPerson().getName().compareTo(o.getPerson().getName());
@@ -84,16 +79,14 @@ public abstract class Pet implements Comparable<Pet> {
         } else {
             return value1;
         }
-
     }
 
     @Override
     public String toString() {
         return "Pet{" + " person=" + person.toString() + " , type= " + petType +
-
                 ", nickname= '" + nickname + '\'' +
-
                 ", weight= " + weight +
                 '}';
     }
+
 }
