@@ -9,7 +9,6 @@ public abstract class Pet implements Comparable<Pet> {
     private int weight;
 
     public Pet(PetType petType, String nickname, Person person, int weight) {
-
         this.petId = id++;
         this.petType = petType;
         this.nickname = nickname;
@@ -18,7 +17,6 @@ public abstract class Pet implements Comparable<Pet> {
     }
 
     public Pet(PetType petType, String nickname) {
-
         this.petId = id++;
         this.petType = petType;
         this.nickname = nickname;

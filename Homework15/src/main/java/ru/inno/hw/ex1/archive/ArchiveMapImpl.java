@@ -3,6 +3,7 @@ package ru.inno.hw.ex1.archive;
 import ru.inno.hw.ex1.exception.DuplicateException;
 import ru.inno.hw.ex1.model.Person;
 import ru.inno.hw.ex1.model.Pet;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,4 +86,5 @@ public class ArchiveMapImpl<K, V extends Pet> implements Archive<K, V> {
         pets[i1] = pets[i2];
         pets[i2] = temp;
     }
+
 }

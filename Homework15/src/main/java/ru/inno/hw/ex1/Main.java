@@ -19,16 +19,16 @@ public class Main {
         Person marina = new Person("Марина", 35, Sex.FEMALE);
         Person mariya = new Person("Мария", 23, Sex.FEMALE);
         Person roma = new Person("Роман", 34, Sex.MALE);
-        Pet tuzik1 = PetFactory.create(PetType.Dog,"Тузик", ivan, 12);
-        Pet belka2 = PetFactory.create(PetType.Dog,"Белка", roma, 8);
-        Pet ponchik3 = PetFactory.create(PetType.Cat ,"Пончик", marina, 16);
-        Pet strelka4 = PetFactory.create(PetType.Dog,"Стрелка", roma, 7);
-        Pet barsik5 = PetFactory.create(PetType.Cat,"Барсик", mariya, 5);
+        Pet tuzik1 = PetFactory.create(PetType.Dog, "Тузик", ivan, 12);
+        Pet belka2 = PetFactory.create(PetType.Dog, "Белка", roma, 8);
+        Pet ponchik3 = PetFactory.create(PetType.Cat, "Пончик", marina, 16);
+        Pet strelka4 = PetFactory.create(PetType.Dog, "Стрелка", roma, 7);
+        Pet barsik5 = PetFactory.create(PetType.Cat, "Барсик", mariya, 5);
         Pet kesha6 = PetFactory.create(PetType.Bird, "Кеша", marina, 1);
-        Pet reks7 = PetFactory.create(PetType.Dog,"Рекс", ivan, 9);
-        Pet murzik8 = PetFactory.create(PetType.Cat,"Мурзик", marina, 3);
-        Pet murzik9 = PetFactory.create(PetType.Cat,"Мурзик", roma, 6);
-        Pet customPet = PetFactory.create(PetType.Dog,"Алабай");
+        Pet reks7 = PetFactory.create(PetType.Dog, "Рекс", ivan, 9);
+        Pet murzik8 = PetFactory.create(PetType.Cat, "Мурзик", marina, 3);
+        Pet murzik9 = PetFactory.create(PetType.Cat, "Мурзик", roma, 6);
+        Pet customPet = PetFactory.create(PetType.Dog, "Алабай");
         Archive<Integer, Pet> petArchive = new ArchiveMapImpl<>();
         petArchive.addPet(tuzik1.getPetId(), tuzik1);
         petArchive.addPet(belka2.getPetId(), belka2);
@@ -44,9 +44,10 @@ public class Main {
         petArchive.printAll();
         petArchive.addPet(customPet.getPetId(), customPet);
         System.out.println("---------");
-        System.out.println( petArchive.findByNickName("Пончик"));
+        System.out.println(petArchive.findByNickName("Пончик"));
         petArchive.findByNickName("Арчи");
         petArchive.modifyById(6, null, ivan, 2);
         petArchive.printAll();
     }
+
 }

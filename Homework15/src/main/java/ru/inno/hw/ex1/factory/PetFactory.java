@@ -1,9 +1,13 @@
 package ru.inno.hw.ex1.factory;
 
-import ru.inno.hw.ex1.model.*;
+import ru.inno.hw.ex1.model.Bird;
+import ru.inno.hw.ex1.model.Cat;
+import ru.inno.hw.ex1.model.Dog;
+import ru.inno.hw.ex1.model.Person;
+import ru.inno.hw.ex1.model.Pet;
+import ru.inno.hw.ex1.model.PetType;
 
 public class PetFactory {
-    private PetType petType;
     public static Pet create(PetType petType, String nickname, Person person, int weight){
         switch (petType){
             case Dog:
