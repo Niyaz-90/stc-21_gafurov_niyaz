@@ -8,7 +8,8 @@ import ru.inno.hw.ex1.chain_parts.PetInfo;
 import ru.inno.hw.ex1.model.*;
 
 /*
-       */
+Паттерн - Команда
+ */
 public class Main {
     public static void main(String[] args) {
         Person ivan = new Person("Иван", 65, Sex.MALE);
@@ -60,9 +61,10 @@ public class Main {
         petArchive.printAll();
         petArchive.addPet(customPet.getPetId(), customPet);
         System.out.println("---------");
-        System.out.println( petArchive.findByNickName("Пончик"));
+        System.out.println(petArchive.findByNickName("Пончик"));
         petArchive.findByNickName("Арчи");
         petArchive.modifyById(6, null, ivan, 2);
         petArchive.printAll();
     }
+
 }
