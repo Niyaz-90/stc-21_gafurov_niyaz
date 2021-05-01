@@ -1,8 +1,6 @@
 package ru.inno.hw.ex1.model;
 
-import ru.inno.hw.ex1.chain_parts.Handler;
-
-public abstract class Pet extends Handler implements Comparable<Pet> {
+public abstract class Pet implements Comparable<Pet> {
     private PetType petType;
     private static int id = 1;
     private int petId;
@@ -16,9 +14,6 @@ public abstract class Pet extends Handler implements Comparable<Pet> {
         this.nickname = nickname;
         this.person = person;
         this.weight = weight;
-    }
-
-    public Pet() {
     }
 
     public PetType getPetType() {

@@ -1,50 +1,43 @@
 package ru.inno.hw.ex1;
 
-import jdk.internal.org.objectweb.asm.Handle;
 import ru.inno.hw.ex1.archive.Archive;
 import ru.inno.hw.ex1.archive.ArchiveMapImpl;
-import ru.inno.hw.ex1.chain_parts.Handler;
-import ru.inno.hw.ex1.chain_parts.PetInfo;
+import ru.inno.hw.ex1.chain_parts.*;
 import ru.inno.hw.ex1.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /*
 Паттерн - Команда
  */
 public class Main {
+    public static List<Dog> dogList = new ArrayList<>();
+    public static List<Cat> catList = new ArrayList<>();
+    public static List<Bird> birdList = new ArrayList<>();
     public static void main(String[] args) {
         Person ivan = new Person("Иван", 65, Sex.MALE);
         Person marina = new Person("Марина", 35, Sex.FEMALE);
         Person mariya = new Person("Мария", 23, Sex.FEMALE);
         Person roma = new Person("Роман", 34, Sex.MALE);
 
-        Handler dogHandler = new Dog();
-        Handler catHandler = new Cat();
-        Handler birdHandler = new Bird();
-
-        PetInfo pet1 = new PetInfo(PetType.Dog, "Тузик", ivan, 12);
-        PetInfo pet2 = new PetInfo(PetType.Dog, "Белка", roma, 8);
-        PetInfo pet3 = new PetInfo(PetType.Cat, "Пончик", marina, 16);
-        PetInfo pet4 = new PetInfo(PetType.Dog, "Стрелка", roma, 7);
-        PetInfo pet5 = new PetInfo(PetType.Cat, "Барсик", mariya, 5);
-        PetInfo pet6 = new PetInfo(PetType.Bird, "Кеша", marina, 1);
-        PetInfo pet7 = new PetInfo(PetType.Dog, "Рекс", ivan, 9);
-        PetInfo pet8 = new PetInfo(PetType.Cat, "Мурзик", marina, 3);
-        PetInfo pet9 = new PetInfo(PetType.Cat, "Мурзик", roma, 6);
-        PetInfo pet10 = new PetInfo(PetType.Dog, "Алабай", marina, 5555);
+        Handler dogHandler = new DogHandler();
+        Handler catHandler = new CatHandler();
+        Handler birdHandler = new BirdHandler();
 
         dogHandler.setSuccessor(catHandler);
         catHandler.setSuccessor(birdHandler);
 
-        Pet tuzik1 = dogHandler.createPetByPetInfo(pet1);
-        Pet belka2 = dogHandler.createPetByPetInfo(pet2);
-        Pet ponchik3 = dogHandler.createPetByPetInfo(pet3);
-        Pet strelka4 = dogHandler.createPetByPetInfo(pet4);
-        Pet barsik5 = dogHandler.createPetByPetInfo(pet5);
-        Pet kesha6 = dogHandler.createPetByPetInfo(pet6);
-        Pet reks7 = dogHandler.createPetByPetInfo(pet7);
-        Pet murzik8 = dogHandler.createPetByPetInfo(pet8);
-        Pet murzik9 = dogHandler.createPetByPetInfo(pet9);
-        Pet customPet = dogHandler.createPetByPetInfo(pet10);
+        Pet tuzik1 = dogHandler.createAndAddToList(PetType.Dog, "Тузик", ivan, 12);
+        Pet belka2 = dogHandler.createAndAddToList(PetType.Dog, "Белка", roma, 8);
+        Pet ponchik3 = dogHandler.createAndAddToList(PetType.Cat, "Пончик", marina, 16);
+        Pet strelka4 = dogHandler.createAndAddToList(PetType.Dog, "Стрелка", roma, 7);
+        Pet barsik5 = dogHandler.createAndAddToList(PetType.Cat, "Барсик", mariya, 5);
+        Pet kesha6 = dogHandler.createAndAddToList(PetType.Bird, "Кеша", marina, 1);
+        Pet reks7 = dogHandler.createAndAddToList(PetType.Dog, "Рекс", ivan, 9);
+        Pet murzik8 = dogHandler.createAndAddToList(PetType.Cat, "Мурзик", marina, 3);
+        Pet murzik9 = dogHandler.createAndAddToList(PetType.Cat, "Мурзик", roma, 6);
+        Pet customPet = dogHandler.createAndAddToList(PetType.Dog, "Алабай", marina, 5555);
 
         Archive<Integer, Pet> petArchive = new ArchiveMapImpl<>();
         petArchive.addPet(tuzik1.getPetId(), tuzik1);
@@ -65,6 +58,14 @@ public class Main {
         petArchive.findByNickName("Арчи");
         petArchive.modifyById(6, null, ivan, 2);
         petArchive.printAll();
+
+        System.out.println("--------------------------------");
+        dogList.stream().forEach(System.out::println);
+        System.out.println("--------------------------------");
+        catList.stream().forEach(System.out::println);
+        System.out.println("--------------------------------");
+        birdList.stream().forEach(System.out::println);
+
     }
 
 }

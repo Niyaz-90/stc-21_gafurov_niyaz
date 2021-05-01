@@ -1,6 +1,8 @@
 package ru.inno.hw.ex1.chain_parts;
 
+import ru.inno.hw.ex1.model.Person;
 import ru.inno.hw.ex1.model.Pet;
+import ru.inno.hw.ex1.model.PetType;
 
 public abstract class Handler {
     private Handler successor;
@@ -13,6 +15,6 @@ public abstract class Handler {
         return successor;
     }
 
-    public abstract Pet createPetByPetInfo(PetInfo petInfo);
+    public abstract Pet createAndAddToList(PetType petType, String nickname, Person person, int weight);
 
 }
