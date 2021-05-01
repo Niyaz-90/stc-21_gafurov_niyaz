@@ -12,7 +12,7 @@ public class DBUtil {
         try (Connection connection = ConnectionManager.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(
-                    // TODO: 01.05.2021  
+                    // TODO: 01.05.2021
                     "DROP TABLE IF EXISTS product;\n" +
                             "DROP TABLE IF EXISTS orders;\n" +
                             "DROP TABLE IF EXISTS employee;\n" +
@@ -26,7 +26,7 @@ public class DBUtil {
                             ");\n" +
                             "CREATE TABLE orders(order_id serial primary key,\n" +
                             "                    buyer_id Integer references buyer(buyer_id),\n" +
-                            "                    address varchar(100), date DATE, product_id INTEGER references product(product_id),\n" +
+                            "                    address varchar(100), payment_date DATE, product_id INTEGER references product(product_id),\n" +
                             "                     payment_status varchar(10))\n;\n"); //prod id -
         } catch (SQLException throwables) {
             throwables.printStackTrace();

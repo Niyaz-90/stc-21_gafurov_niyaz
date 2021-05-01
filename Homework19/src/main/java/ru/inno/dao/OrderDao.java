@@ -1,10 +1,13 @@
 package ru.inno.dao;
 
-import java.util.Date;
+import ru.inno.model.Order;
+
+import java.sql.Date;
 
 public interface OrderDao {
     void create(int buyerId, int productId);
-    void findById(int orderId);
+    Order findById(int orderId);
     void updateById(int orderId, String address, Date date, String paymentStatus);
-    void deleteById(int orderId);
+    void deleteOrderById(int orderId);
+    void deleteProductFromBucket(int orderId, int productId);
 }
