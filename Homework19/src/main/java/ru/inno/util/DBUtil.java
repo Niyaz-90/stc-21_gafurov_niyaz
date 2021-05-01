@@ -15,10 +15,9 @@ public class DBUtil {
                     // TODO: 01.05.2021
                     "DROP TABLE IF EXISTS product;\n" +
                             "DROP TABLE IF EXISTS orders;\n" +
-                            "DROP TABLE IF EXISTS employee;\n" +
                             "DROP TABLE IF EXISTS buyer;\n" +
-                            "DROP TABLE IF EXISTS product;\n" +
-                            "CREATE TABLE product(product_id serial primary key," +
+                            "DROP TABLE IF EXISTS products;\n" +
+                            "CREATE TABLE products(product_id serial primary key," +
                             " product_name varchar (30) NOT NULL," +
                             "cost INTEGER );\n" +
                             "CREATE TABLE buyer(buyer_id serial primary key ," +
