@@ -4,14 +4,7 @@ import java.util.Date;
 
 public class Order {
     private int orderId;
-
-    public int getBuyerId() {
-        return buyerId;
-    }
-
-    public void setBuyerId(int buyerId) {
-        this.buyerId = buyerId;
-    }
+    public static int orderIdCounter = 1;
 
     private int buyerId;
     private String address;
@@ -26,6 +19,10 @@ public class Order {
         this.date = date;
         this.productId = productId;
         this.paymentStatus = paymentStatus;
+    }
+
+    public static int addNewOrder(){
+        return orderIdCounter++;
     }
 
     public int getOrderId() {
@@ -52,6 +49,14 @@ public class Order {
         this.date = date;
     }
 
+    public int getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(int buyerId) {
+        this.buyerId = buyerId;
+    }
+
     public int getProductId() {
         return productId;
     }
@@ -66,6 +71,18 @@ public class Order {
 
     public void setPaymentStatus(String paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "orderId=" + orderId +
+                ", buyerId=" + buyerId +
+                ", address='" + address + '\'' +
+                ", date=" + date +
+                ", productId=" + productId +
+                ", paymentStatus='" + paymentStatus + '\'' +
+                '}';
     }
 
 }

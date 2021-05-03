@@ -10,8 +10,14 @@ import java.sql.SQLException;
 import java.sql.Date;
 
 public class OrderDaoImpl implements OrderDao {
+
+    private static final ConnectionManager connectionManager = ConnectionManager.getINSTANCE();
     //SQL
-    private static final String insertQuery = "INSERT INTO orders(buyer_id, product_id) VALUES(?, ?)";
+    private static final String insertQuery = "INSERT INTO orders(order_id, buyer_id, product_id) VALUES(?, ?, ?)";
+
+    //SQL
+    public static final String checkBuyerOrdersQuery = "SELECT * FROM orders WHERE buyer_id = ?";
+
     //SQL
     private static final String selectQuery = "SELECT * FROM orders WHERE order_id = ?";
     //SQL
@@ -21,15 +27,37 @@ public class OrderDaoImpl implements OrderDao {
     private static final String deleteOrderQuery = "DELETE FROM orders WHERE order_id = ?";
     //SQL
     private static final String deleteProductFromBucketQuery =
-            "DELETE FROM orders WHERE product_id = ?(SELECT * FROM orders WHERE order_id = ?)";
+            "DELETE FROM orders WHERE product_id = ? AND order_id = ?";
+
+    public OrderDaoImpl() {
+    }
 
     @Override
-    public void create(int buyerId, int productId) {
-        try (Connection connection = ConnectionManager.getConnection();
-             PreparedStatement ps = connection.prepareStatement(insertQuery)) {
+    public void addNewProductToBucket(int buyerId, int productId){
+        int orderIdOfBuyer = 0;
+        try(Connection connection = connectionManager.getConnection();
+        PreparedStatement ps = connection.prepareStatement(checkBuyerOrdersQuery)){
             connection.setAutoCommit(false);
             ps.setInt(1, buyerId);
-            ps.setInt(2, productId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()){
+                orderIdOfBuyer = rs.getInt(1);
+            }
+            connection.commit();
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+        create(orderIdOfBuyer, buyerId,productId);
+    }
+
+    @Override
+    public void create(int orderId, int buyerId, int productId) { //createNewOrder(...)
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement ps = connection.prepareStatement(insertQuery)) {
+            connection.setAutoCommit(false);
+            ps.setInt(1, orderId);
+            ps.setInt(2, buyerId);
+            ps.setInt(3, productId);
             ps.execute();
             connection.commit();
         } catch (SQLException e) {
@@ -40,17 +68,20 @@ public class OrderDaoImpl implements OrderDao {
     @Override
     public Order findById(int orderId) {
         Order order = null;
-        try (Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = connectionManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(selectQuery)) {
             connection.setAutoCommit(false);
             ps.setInt(1, orderId);
             ResultSet resultSet = ps.executeQuery();
-            order = new Order(resultSet.getInt(1),
-                    resultSet.getInt(2),
-                    resultSet.getString(3),
-                    resultSet.getDate(4),
-                    resultSet.getInt(5),
-                    resultSet.getString(6));
+            while (resultSet.next()) {
+                order = new Order(resultSet.getInt(1),
+                        resultSet.getInt(2),
+                        resultSet.getString(3),
+                        resultSet.getDate(4),
+                        resultSet.getInt(5),
+                        resultSet.getString(6));
+                System.out.println(order.toString());
+            }
             connection.commit();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -60,7 +91,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void updateById(int orderId, String address, Date paymentDate, String paymentStatus) {
-        try (Connection connection = ConnectionManager.getConnection();
+        try (Connection connection = connectionManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(updateQuery)) {
             connection.setAutoCommit(false);
             ps.setString(1, address);
@@ -77,7 +108,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void deleteOrderById(int orderId) {
-        try(Connection connection = ConnectionManager.getConnection();
+        try(Connection connection = connectionManager.getConnection();
         PreparedStatement ps = connection.prepareStatement(deleteOrderQuery)){
             connection.setAutoCommit(false);
             ps.setInt(1, orderId);
@@ -91,7 +122,7 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void deleteProductFromBucket(int orderId, int productId){
-        try(Connection connection = ConnectionManager.getConnection();
+        try(Connection connection = connectionManager.getConnection();
         PreparedStatement ps = connection.prepareStatement(deleteProductFromBucketQuery)) {
             connection.setAutoCommit(false);
             ps.setInt(1, productId);

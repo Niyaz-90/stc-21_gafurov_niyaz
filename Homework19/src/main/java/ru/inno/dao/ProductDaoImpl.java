@@ -9,17 +9,21 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProductDaoImpl implements ProductDao {
+    public static final ConnectionManager connectionManager = ConnectionManager.getINSTANCE();
     //SQL
     private static final String insertQuery = "INSERT INTO products(product_name, cost) VALUES (?, ?);";
     //SQL
     private static final String updateByIdQuery =
-            "UPDATE products(product_name, cost) SET (?, ?) WHERE product_id = ?;";
+            "UPDATE products SET product_name = ?, cost = ? WHERE product_id = ?;";
     //SQL
     private static final String deleteByIdQuery = "DELETE FROM products WHERE product_id = ?;";
 
+    public ProductDaoImpl() {
+    }
+
     @Override
     public void create(String name, int cost) {
-        try(Connection connection = ConnectionManager.getConnection();
+        try(Connection connection = connectionManager.getConnection();
             PreparedStatement ps = connection.prepareStatement(insertQuery)){
             connection.setAutoCommit(false);
             ps.setString(1, name);
@@ -33,7 +37,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void updateById(int productId, String name, int cost) {
-        try(Connection connection = ConnectionManager.getConnection();
+        try(Connection connection = connectionManager.getConnection();
         PreparedStatement ps = connection.prepareStatement(updateByIdQuery)){
             connection.setAutoCommit(false);
             ps.setString(1, name);
@@ -48,7 +52,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void deleteById(int productId) {
-        try(Connection connection = ConnectionManager.getConnection();
+        try(Connection connection = connectionManager.getConnection();
         PreparedStatement ps = connection.prepareStatement(deleteByIdQuery)){
             connection.setAutoCommit(false);
             ps.setInt(1, productId);
