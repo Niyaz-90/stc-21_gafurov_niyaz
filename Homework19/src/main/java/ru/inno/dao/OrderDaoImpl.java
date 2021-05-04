@@ -10,14 +10,11 @@ import java.sql.SQLException;
 import java.sql.Date;
 
 public class OrderDaoImpl implements OrderDao {
-
     private static final ConnectionManager connectionManager = ConnectionManager.getINSTANCE();
     //SQL
     private static final String insertQuery = "INSERT INTO orders(order_id, buyer_id, product_id) VALUES(?, ?, ?)";
-
     //SQL
     public static final String checkBuyerOrdersQuery = "SELECT * FROM orders WHERE buyer_id = ?";
-
     //SQL
     private static final String selectQuery = "SELECT * FROM orders WHERE order_id = ?";
     //SQL
@@ -27,27 +24,27 @@ public class OrderDaoImpl implements OrderDao {
     private static final String deleteOrderQuery = "DELETE FROM orders WHERE order_id = ?";
     //SQL
     private static final String deleteProductFromBucketQuery =
-            "DELETE FROM orders WHERE product_id = ? AND order_id = ?";
+            "DELETE FROM orders WHERE product_id = ? AND buyer_id = ?";
 
     public OrderDaoImpl() {
     }
 
     @Override
-    public void addNewProductToBucket(int buyerId, int productId){
+    public void addNewProductToBucket(int buyerId, int productId) {
         int orderIdOfBuyer = 0;
-        try(Connection connection = connectionManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement(checkBuyerOrdersQuery)){
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement ps = connection.prepareStatement(checkBuyerOrdersQuery)) {
             connection.setAutoCommit(false);
             ps.setInt(1, buyerId);
             ResultSet rs = ps.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 orderIdOfBuyer = rs.getInt(1);
             }
             connection.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        create(orderIdOfBuyer, buyerId,productId);
+        create(orderIdOfBuyer, buyerId, productId);
     }
 
     @Override
@@ -108,28 +105,28 @@ public class OrderDaoImpl implements OrderDao {
 
     @Override
     public void deleteOrderById(int orderId) {
-        try(Connection connection = connectionManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement(deleteOrderQuery)){
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement ps = connection.prepareStatement(deleteOrderQuery)) {
             connection.setAutoCommit(false);
             ps.setInt(1, orderId);
             int deletedRows = ps.executeUpdate();
             connection.commit();
             System.out.println("Order " + orderId + "is deleted. " + deletedRows);
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void deleteProductFromBucket(int orderId, int productId){
-        try(Connection connection = connectionManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement(deleteProductFromBucketQuery)) {
+    public void deleteProductFromBucket(int buyerId, int productId) {
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement ps = connection.prepareStatement(deleteProductFromBucketQuery)) {
             connection.setAutoCommit(false);
             ps.setInt(1, productId);
-            ps.setInt(2, orderId);
+            ps.setInt(2, buyerId);
             System.out.println("Product " + productId + " deleted from bucket. " + ps.executeUpdate());
             connection.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

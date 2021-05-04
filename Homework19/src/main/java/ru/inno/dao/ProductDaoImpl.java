@@ -23,22 +23,22 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void create(String name, int cost) {
-        try(Connection connection = connectionManager.getConnection();
-            PreparedStatement ps = connection.prepareStatement(insertQuery)){
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement ps = connection.prepareStatement(insertQuery)) {
             connection.setAutoCommit(false);
             ps.setString(1, name);
             ps.setInt(2, cost);
             ps.execute();
             connection.commit();
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
     public void updateById(int productId, String name, int cost) {
-        try(Connection connection = connectionManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement(updateByIdQuery)){
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement ps = connection.prepareStatement(updateByIdQuery)) {
             connection.setAutoCommit(false);
             ps.setString(1, name);
             ps.setInt(2, cost);
@@ -52,8 +52,8 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public void deleteById(int productId) {
-        try(Connection connection = connectionManager.getConnection();
-        PreparedStatement ps = connection.prepareStatement(deleteByIdQuery)){
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement ps = connection.prepareStatement(deleteByIdQuery)) {
             connection.setAutoCommit(false);
             ps.setInt(1, productId);
             ResultSet rs = ps.executeQuery();
