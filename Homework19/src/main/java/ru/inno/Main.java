@@ -8,10 +8,15 @@ import ru.inno.model.Order;
 import ru.inno.util.DBUtil;
 
 import java.sql.Date;
+import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-        DBUtil.reNewTables();
+        try {
+            DBUtil.reNewTables();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         OrderDao orderDao = new OrderDaoImpl();
         ProductDao productDao = new ProductDaoImpl();
         productDao.create("блокнот", 50);

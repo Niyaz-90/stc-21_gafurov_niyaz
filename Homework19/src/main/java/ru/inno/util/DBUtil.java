@@ -5,12 +5,12 @@ import ru.inno.connection.ConnectionManager;
 import java.sql.*;
 
 public class DBUtil {
-    public static final ConnectionManager connectionManager = ConnectionManager.INSTANCE;
+    public static final ConnectionManager connectionManager = ConnectionManager.getINSTANCE();
 
-    public static void reNewTables() {
-        try (Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/hwDB",
-                "postgres", "qwerty123");
-             Statement statement = connection.createStatement()) {
+    public static void reNewTables() throws SQLException {
+        Connection connection = connectionManager.getConnection();
+        Savepoint sp4 = null;
+        try (Statement statement = connection.createStatement()) {
             connection.setAutoCommit(false);
             Savepoint sp1 = connection.setSavepoint();
             statement.execute("DROP TABLE IF EXISTS orders;\n" +
@@ -40,14 +40,13 @@ public class DBUtil {
                     "INSERT INTO products(product_name, cost) VALUES ('ручка', 25);" +
                     "INSERT INTO products(product_name, cost) VALUES ('ноутбук', 35000);" +
                     "INSERT INTO products(product_name, cost) VALUES ('книга3', 280);");
-            Savepoint sp4 = connection.setSavepoint();
+            sp4 = connection.setSavepoint();
             statement.execute("INSERT INTO products(product_name, cost) VALUES ('огурец', 25);" +
                     "INSERT INTO products(product_name, cost) VALUES ('помидор', 35);" +
                     "INSERT INTO products(product_name, cost) VALUES ('тыква', 28);");
-            connection.rollback(sp4);
             connection.commit();
         } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            connection.rollback(sp4);
         }
     }
 
