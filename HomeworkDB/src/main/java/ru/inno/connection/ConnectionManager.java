@@ -10,6 +10,7 @@ import java.sql.SQLException;
 public class ConnectionManager {
     public static final ConnectionManager INSTANCE = new ConnectionManager();
     private static Logger systemLog = LoggerFactory.getLogger("systemAppender");
+    private static Logger dbLog = LoggerFactory.getLogger("dbAppender");
 
     private ConnectionManager() {
     }
@@ -25,6 +26,7 @@ public class ConnectionManager {
                     "postgres", "qwerty123");
         } catch (SQLException e) {
             systemLog.error(e.getMessage());
+            dbLog.error(e.getMessage());
         }
         return connection;
     }

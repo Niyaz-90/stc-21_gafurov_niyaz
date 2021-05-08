@@ -1,11 +1,18 @@
 package ru.inno.dao;
 
+import org.slf4j.LoggerFactory;
 import ru.inno.connection.ConnectionManager;
 import ru.inno.model.Order;
 
 import java.sql.*;
 
+import org.slf4j.Logger;
+
 public class OrderDaoImpl implements OrderDao {
+    private static Logger dbLog = LoggerFactory.getLogger("dbAppender");
+    private static Logger systemLog = LoggerFactory.getLogger("systemAppender");
+    private static Logger securityLog = LoggerFactory.getLogger("securityAppender");
+    private static Logger eventLog = LoggerFactory.getLogger("eventAppender");
     private static final ConnectionManager connectionManager = ConnectionManager.getINSTANCE();
     //SQL
     private static final String insertQuery = "INSERT INTO orders(order_id, buyer_id, product_id) VALUES(?, ?, ?)";
@@ -37,14 +44,17 @@ public class OrderDaoImpl implements OrderDao {
                 orderIdOfBuyer = rs.getInt(1);
             }
             connection.commit();
+            eventLog.info("Buyer " + buyerId + " add product " + productId);
+            dbLog.info("Buyer " + buyerId + " add product " + productId);
         } catch (SQLException e) {
-            e.printStackTrace();
+            eventLog.warn("Cannot add product (id):" + productId + " in buyer's (id:" + buyerId + " bucket.");
+            dbLog.warn("Cannot add product (id):" + productId + " in buyer's (id:" + buyerId + " bucket.");
         }
-        create(orderIdOfBuyer, buyerId, productId);
+        createNewOrder(orderIdOfBuyer, buyerId, productId);
     }
 
     @Override
-    public void create(int orderId, int buyerId, int productId) { //createNewOrder(...)
+    public void createNewOrder(int orderId, int buyerId, int productId) {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(insertQuery)) {
             connection.setAutoCommit(false);
@@ -53,8 +63,12 @@ public class OrderDaoImpl implements OrderDao {
             ps.setInt(3, productId);
             ps.execute();
             connection.commit();
+            eventLog.info(" order " + orderId + " created");
+            dbLog.info(" order " + orderId + " created");
         } catch (SQLException e) {
-            e.printStackTrace();
+            eventLog.warn("Cannot create order: " + orderId);
+            securityLog.warn("Cannot add order");
+            dbLog.warn("Cannot create order: " + orderId);
         }
     }
 
@@ -77,7 +91,8 @@ public class OrderDaoImpl implements OrderDao {
             }
             connection.commit();
         } catch (SQLException e) {
-            e.printStackTrace();
+            eventLog.info("Cannot find order:" + orderId);
+            dbLog.info("Cannot find order:" + orderId);
         }
         return order;
     }
@@ -93,9 +108,12 @@ public class OrderDaoImpl implements OrderDao {
             ps.setInt(4, orderId);
             int modifiedRows = ps.executeUpdate();
             connection.commit();
-            System.out.println(modifiedRows + " rows are updated");
+            eventLog.info("Order:" + orderId + " . " + modifiedRows + " rows are updated");
+            dbLog.info("Order:" + orderId + " . " + modifiedRows + " rows are updated");
         } catch (SQLException e) {
-            e.printStackTrace();
+            eventLog.warn("Order:" + orderId + "don't update");
+            securityLog.error("Attempt to change fields");
+            dbLog.warn("Order:" + orderId + "don't update");
         }
     }
 
@@ -107,9 +125,11 @@ public class OrderDaoImpl implements OrderDao {
             ps.setInt(1, orderId);
             int deletedRows = ps.executeUpdate();
             connection.commit();
-            System.out.println("Order " + orderId + "is deleted. " + deletedRows);
+            eventLog.info("Order " + orderId + "is deleted. " + deletedRows);
+            dbLog.info("Order " + orderId + "is deleted. " + deletedRows);
         } catch (SQLException e) {
-            e.printStackTrace();
+            systemLog.error("Problems with delete order");
+            dbLog.error("Problems with delete order");
         }
     }
 
@@ -120,10 +140,12 @@ public class OrderDaoImpl implements OrderDao {
             connection.setAutoCommit(false);
             ps.setInt(1, productId);
             ps.setInt(2, buyerId);
-            System.out.println("Product " + productId + " deleted from bucket. " + ps.executeUpdate());
             connection.commit();
+            eventLog.info("Product " + productId + " deleted from bucket. " + ps.executeUpdate());
+            dbLog.info("Product " + productId + " deleted from bucket. " + ps.executeUpdate());
         } catch (SQLException e) {
-            e.printStackTrace();
+            systemLog.error("Cannot delete product from bucket");
+            dbLog.error("Cannot delete product from bucket");
         }
     }
 

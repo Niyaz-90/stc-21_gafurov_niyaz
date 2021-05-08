@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Configuration status="info" name="logger" packages="">
+    <Appenders>
+        <RollingFile name="systemAppender" fileName="logs\systemLogs.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1MB"/>
+            </Policies>
+            <FilePattern>'.'yyyy-MM-dd"</FilePattern>
+        </RollingFile>
+        <RollingFile name="securityAppender" fileName="logs\securityLogs.log">
+            <PatternLayout>
+                <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1MB"/>
+            </Policies>
+            <FilePattern>'.'yyyy-MM-dd"</FilePattern>
+        </RollingFile>
+        <RollingFile name="eventAppender" fileName="logs\eventLogs.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="1MB"/>
+            </Policies>
+            <FilePattern>'.'yyyy-MM-dd"</FilePattern>
+        </RollingFile>
+        <JDBC name="dbAppender" class="org.apache.logging.log4j.core.appender.db.jdbc.JdbcAppender">
+            <ConnectionSource>jdbc:postgresql://localhost:5432/hwDB</ConnectionSource>
+            <Driver name="postgres" class="org.postgresql.Driver"/>
+            <URL></URL>
+            <User>postgres</User>
+            <Password>qwerty123</Password>
+            <Column name="date" isUnicode="false" pattern="%d{yyyy-MM-dd HH:mm:ss} "/>
+            <Column name="message" isUnicode="false" pattern="[%t] %-5level %logger{36} - %msg%n"/>
+            <Sql>INSERT INTO logs_table VALUES(%d{yyyy-MM-dd HH:mm:ss} , [%t] %-5level %logger{36} - %msg%n)</Sql>
+        </JDBC>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="systemAppender" level="info"/>
+            <AppenderRef ref="securityAppender" level="warn"/>
+            <AppenderRef ref="eventAppender" level="info"/>
+            <AppenderRef ref="dbAppender" level="info"/>
+        </Root>
+    </Loggers>
+</Configuration>

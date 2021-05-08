@@ -20,9 +20,9 @@ public class Main {
         OrderDao orderDao = new OrderDaoImpl();
         ProductDao productDao = new ProductDaoImpl();
         productDao.create("блокнот", 50);
-        orderDao.create(Order.addNewOrder(), 1, 3);
-        orderDao.create(Order.addNewOrder(), 3, 5);
-        orderDao.create(Order.addNewOrder(), 2, 6);
+        orderDao.createNewOrder(Order.addNewOrder(), 1, 3);
+        orderDao.createNewOrder(Order.addNewOrder(), 3, 5);
+        orderDao.createNewOrder(Order.addNewOrder(), 2, 6);
         orderDao.addNewProductToBucket(3, 3);
         orderDao.addNewProductToBucket(3, 2);
         orderDao.addNewProductToBucket(3, 6);

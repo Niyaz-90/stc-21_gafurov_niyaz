@@ -1,5 +1,7 @@
 package ru.inno.dao;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.inno.connection.ConnectionManager;
 
 import java.sql.Connection;
@@ -8,6 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProductDaoImpl implements ProductDao {
+    private static Logger dbLog = LoggerFactory.getLogger("dbAppender");
+    private static Logger systemLog = LoggerFactory.getLogger("systemAppender");
+    private static Logger securityLog = LoggerFactory.getLogger("securityAppender");
+    private static Logger eventLog = LoggerFactory.getLogger("eventAppender");
     public static final ConnectionManager connectionManager = ConnectionManager.getINSTANCE();
     //SQL
     private static final String insertQuery = "INSERT INTO products(product_name, cost) VALUES (?, ?);";
@@ -29,8 +35,11 @@ public class ProductDaoImpl implements ProductDao {
             ps.setInt(2, cost);
             ps.execute();
             connection.commit();
+            eventLog.info("create product " + name);
+            dbLog.info("create product " + name);
         } catch (SQLException e) {
-            e.printStackTrace();
+            securityLog.error("problems with create product");
+            dbLog.error("problems with create product");
         }
     }
 
@@ -42,10 +51,13 @@ public class ProductDaoImpl implements ProductDao {
             ps.setString(1, name);
             ps.setInt(2, cost);
             ps.setInt(3, productId);
-            System.out.println(ps.executeUpdate() + " records updated.");
+            eventLog.info(ps.executeUpdate() + " records updated.");
             connection.commit();
+            eventLog.info("Fields of product " + name + " updated");
+            dbLog.info("Fields of product " + name + " updated");
         } catch (SQLException e) {
-            e.printStackTrace();
+            systemLog.error("problems with create product");
+            dbLog.error("problems with create product");
         }
     }
 
@@ -56,10 +68,12 @@ public class ProductDaoImpl implements ProductDao {
             connection.setAutoCommit(false);
             ps.setInt(1, productId);
             ResultSet rs = ps.executeQuery();
-            System.out.println("Product: " + rs.getString(2) + "(id: " + productId + " ) deleted");
             connection.commit();
+            eventLog.info("Product: " + rs.getString(2) + "(id: " + productId + " ) deleted");
+            dbLog.info("Product: " + rs.getString(2) + "(id: " + productId + " ) deleted");
         } catch (SQLException e) {
-            e.printStackTrace();
+            systemLog.error("Cannot delete product");
+            dbLog.error("Cannot delete product");
         }
     }
 

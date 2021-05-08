@@ -1,11 +1,17 @@
 package ru.inno.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.inno.connection.ConnectionManager;
 
 import java.sql.*;
 
 public class DBUtil {
+    private static Logger dbLog = LoggerFactory.getLogger("dbAppender");
     public static final ConnectionManager connectionManager = ConnectionManager.getINSTANCE();
+    private static Logger systemLog = LoggerFactory.getLogger("systemAppender");
+    private static Logger securityLog = LoggerFactory.getLogger("securityAppender");
+    private static Logger eventLog = LoggerFactory.getLogger("eventAppender");
 
     public static void reNewTables() throws SQLException {
         Connection connection = connectionManager.getConnection();
@@ -16,6 +22,7 @@ public class DBUtil {
             statement.execute("DROP TABLE IF EXISTS orders;\n" +
                     "DROP TABLE IF EXISTS buyers;\n" +
                     "DROP TABLE IF EXISTS products;\n" +
+                    "DROP TABLE IF EXISTS logs_table;\n" +
                     "CREATE TABLE products(product_id serial primary key," +
                     " product_name varchar (30) NOT NULL," +
                     "cost INTEGER );\n" +
@@ -25,7 +32,9 @@ public class DBUtil {
                     "CREATE TABLE orders(order_id INTEGER NOT NULL ,\n" +
                     "                    buyer_id Integer references buyers(buyer_id),\n" +
                     "                    address varchar(100), payment_date DATE, product_id INTEGER references products(product_id),\n" +
-                    "                     payment_status varchar(10))\n;");
+                    "                     payment_status varchar(10))\n;" +
+                    "CREATE TABLE logs_table(log_date varchar (20), " +
+                    "log_issue varchar(200);");
             Savepoint sp2 = connection.setSavepoint();
             PreparedStatement ps = connection.prepareStatement("INSERT INTO buyers(buyer_name) VALUES (?)");
             for (int i = 0; i < 5; i++) {
@@ -45,8 +54,12 @@ public class DBUtil {
                     "INSERT INTO products(product_name, cost) VALUES ('помидор', 35);" +
                     "INSERT INTO products(product_name, cost) VALUES ('тыква', 28);");
             connection.commit();
+            eventLog.info("Tables created");
+            dbLog.info("Tables created");
         } catch (SQLException throwables) {
             connection.rollback(sp4);
+            systemLog.error("Tables don't refreshed");
+            dbLog.error("Tables don't refreshed");
         }
     }
 
