@@ -2,6 +2,7 @@ package ru.inno.dao;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.inno.connection.ConnectionManager;
 import ru.inno.connection.ConnectionManagerImpl;
 import ru.inno.model.Order;
 
@@ -12,7 +13,7 @@ public class OrderDaoImpl implements OrderDao {
     private static Logger systemLog = LoggerFactory.getLogger("systemAppender");
     private static Logger securityLog = LoggerFactory.getLogger("securityAppender");
     private static Logger eventLog = LoggerFactory.getLogger("eventAppender");
-    private static final ConnectionManagerImpl connectionManager = ConnectionManagerImpl.getINSTANCE();
+    private ConnectionManager connectionManager;
     //SQL
     private static final String insertQuery = "INSERT INTO orders(order_id, buyer_id, product_id) VALUES(?, ?, ?)";
     //SQL
@@ -28,7 +29,12 @@ public class OrderDaoImpl implements OrderDao {
     private static final String deleteProductFromBucketQuery =
             "DELETE FROM orders WHERE product_id = ? AND buyer_id = ?";
 
+    public OrderDaoImpl(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
     public OrderDaoImpl() {
+        this.connectionManager = ConnectionManagerImpl.getINSTANCE();
     }
 
     @Override
