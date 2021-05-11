@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.inno.connection.ConnectionManager;
 import ru.inno.connection.ConnectionManagerImpl;
+import ru.inno.exception.IllegalIdException;
 import ru.inno.model.Order;
 
 import java.sql.*;
@@ -38,35 +39,43 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void addNewProductToBucket(int buyerId, int productId) {
+    public void addNewProductToBucket(int buyerId, int productId) throws IllegalIdException {
         int orderIdOfBuyer = 0;
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement ps = connection.prepareStatement(checkBuyerOrdersQuery)) {
-            connection.setAutoCommit(false);
-            ps.setInt(1, buyerId);
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                orderIdOfBuyer = rs.getInt(1);
+        if(buyerId > 0 & productId > 0) {
+            try (Connection connection = connectionManager.getConnection();
+                 PreparedStatement ps = connection.prepareStatement(checkBuyerOrdersQuery)) {
+                connection.setAutoCommit(false);
+                ps.setInt(1, buyerId);
+                ResultSet rs = ps.executeQuery();
+                while (rs.next()) {
+                    orderIdOfBuyer = rs.getInt(1);
+                }
+                connection.commit();
+                eventLog.info("Buyer " + buyerId + " add product " + productId);
+                dbLog.info("Buyer " + buyerId + " add product " + productId);
+            } catch (SQLException e) {
+                eventLog.warn("Cannot add product (id):" + productId + " in buyer's (id:" + buyerId + " bucket.");
+                dbLog.warn("Cannot add product (id):" + productId + " in buyer's (id:" + buyerId + " bucket.");
             }
-            connection.commit();
-            eventLog.info("Buyer " + buyerId + " add product " + productId);
-            dbLog.info("Buyer " + buyerId + " add product " + productId);
-        } catch (SQLException e) {
-            eventLog.warn("Cannot add product (id):" + productId + " in buyer's (id:" + buyerId + " bucket.");
-            dbLog.warn("Cannot add product (id):" + productId + " in buyer's (id:" + buyerId + " bucket.");
+            createNewOrder(orderIdOfBuyer, buyerId, productId);
+        } else {
+            throw new IllegalIdException();
         }
-        createNewOrder(orderIdOfBuyer, buyerId, productId);
     }
 
     @Override
-    public void createNewOrder(int orderId, int buyerId, int productId) {
+    public void createNewOrder(int orderId, int buyerId, int productId) throws IllegalIdException {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(insertQuery)) {
             connection.setAutoCommit(false);
             ps.setInt(1, orderId);
             ps.setInt(2, buyerId);
             ps.setInt(3, productId);
-            ps.execute();
+            boolean executStatus = ps.execute();
+            System.out.println(executStatus);
+            if (!executStatus){
+                throw new IllegalIdException();
+            }
             connection.commit();
             eventLog.info(" order " + orderId + " created");
             dbLog.info(" order " + orderId + " created");

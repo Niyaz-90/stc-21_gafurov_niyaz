@@ -29,12 +29,12 @@ public class DBUtil {
                     "CREATE TABLE buyers(buyer_id serial primary key ," +
                     "buyer_name varchar(100) NOT NULL" +
                     ");\n" +
-                    "CREATE TABLE orders(order_id INTEGER NOT NULL ,\n" +
+                    "CREATE TABLE orders(order_id INTEGER NOT NULL CHECK (order_id > 0),\n" +
                     "                    buyer_id Integer references buyers(buyer_id),\n" +
                     "                    address varchar(100), payment_date DATE, product_id INTEGER references products(product_id),\n" +
-                    "                     payment_status varchar(10))\n;" +
+                    "                     payment_status varchar(10));\n" +
                     "CREATE TABLE logs_table(log_date varchar (20), " +
-                    "log_issue varchar(200);");
+                    "log_issue varchar(200));");
             Savepoint sp2 = connection.setSavepoint();
             PreparedStatement ps = connection.prepareStatement("INSERT INTO buyers(buyer_name) VALUES (?)");
             for (int i = 0; i < 5; i++) {

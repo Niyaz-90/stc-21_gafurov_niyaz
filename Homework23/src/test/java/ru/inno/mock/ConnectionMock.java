@@ -13,7 +13,7 @@ public class ConnectionMock implements Connection {
 
     @Override
     public PreparedStatement prepareStatement(String sql) throws SQLException {
-        return null;
+        return new PreparedStatementMock();
     }
 
     @Override

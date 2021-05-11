@@ -4,6 +4,7 @@ import ru.inno.dao.OrderDao;
 import ru.inno.dao.OrderDaoImpl;
 import ru.inno.dao.ProductDao;
 import ru.inno.dao.ProductDaoImpl;
+import ru.inno.exception.IllegalIdException;
 import ru.inno.model.Order;
 import ru.inno.util.DBUtil;
 
@@ -14,19 +15,19 @@ public class Main {
     public static void main(String[] args) {
         try {
             DBUtil.reNewTables();
+//            Main main = new Main();
+//            OrderDao orderDao = new OrderDaoImpl();
+//            main.testMethod(orderDao);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        Main main = new Main();
-        OrderDao orderDao = new OrderDaoImpl();
-        main.testMethod(orderDao);
     }
 
-    public void testMethod(OrderDao orderDao){
+    public void testMethod(OrderDao orderDao) throws IllegalIdException {
 
         ProductDao productDao = new ProductDaoImpl();
         productDao.create("блокнот", 50);
-        orderDao.createNewOrder(Order.addNewOrder(), 1, 3);
+        orderDao.createNewOrder(Order.addNewOrder(), 2, 3);
         orderDao.createNewOrder(Order.addNewOrder(), 3, 5);
         orderDao.createNewOrder(Order.addNewOrder(), 2, 6);
         orderDao.addNewProductToBucket(3, 3);

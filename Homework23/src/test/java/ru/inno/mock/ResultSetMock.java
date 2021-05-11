@@ -9,9 +9,14 @@ import java.util.Calendar;
 import java.util.Map;
 
 public class ResultSetMock implements ResultSet {
+    private  int count = 0;
     @Override
     public boolean next() throws SQLException {
-        return false;
+        while (count < 5) {
+            count++;
+            return true;
+        }
+        return  false;
     }
 
     @Override
@@ -76,7 +81,7 @@ public class ResultSetMock implements ResultSet {
 
     @Override
     public Date getDate(int columnIndex) throws SQLException {
-        return null;
+        return Date.valueOf("2021-05-11");
     }
 
     @Override
