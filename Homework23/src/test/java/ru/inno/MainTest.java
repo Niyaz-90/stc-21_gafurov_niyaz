@@ -40,7 +40,6 @@ class MainTest {
     void testMethodWithOk(){
         orderDao = new OrderDaoImpl(connectionManager);
         assertDoesNotThrow(() -> main.testMethod(orderDao));
-
     }
 
 }
