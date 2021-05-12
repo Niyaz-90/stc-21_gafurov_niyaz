@@ -120,7 +120,7 @@ public class PreparedStatementMock implements PreparedStatement {
 
     @Override
     public boolean execute() throws SQLException {
-        return false;
+        return true;
     }
 
     @Override

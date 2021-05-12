@@ -10,7 +10,7 @@ public interface OrderDao {
     void createNewOrder(int orderId, int buyerId, int productId) throws IllegalIdException;
     Order findById(int orderId);
     void updateById(int orderId, String address, Date date, String paymentStatus);
-    void deleteOrderById(int orderId);
-    void deleteProductFromBucket(int buyerId, int productId);
+    void deleteOrderById(int orderId) throws IllegalIdException;
+    void deleteProductFromBucket(int buyerId, int productId) throws IllegalIdException;
 
 }

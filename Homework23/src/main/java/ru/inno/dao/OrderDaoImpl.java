@@ -28,7 +28,7 @@ public class OrderDaoImpl implements OrderDao {
     private static final String deleteOrderQuery = "DELETE FROM orders WHERE order_id = ?";
     //SQL
     private static final String deleteProductFromBucketQuery =
-            "DELETE FROM orders WHERE product_id = ? AND buyer_id = ?";
+            "DELETE FROM orders WHERE buyer_id = ? AND product_id = ? ";
 
     public OrderDaoImpl(ConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -67,16 +67,14 @@ public class OrderDaoImpl implements OrderDao {
     public void createNewOrder(int orderId, int buyerId, int productId) throws IllegalIdException {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(insertQuery)) {
-            connection.setAutoCommit(false);
             ps.setInt(1, orderId);
             ps.setInt(2, buyerId);
             ps.setInt(3, productId);
-            boolean executStatus = ps.execute();
-            System.out.println(executStatus);
-            if (!executStatus){
+            if(orderId > 0){
+                ps.execute();
+            } else {
                 throw new IllegalIdException();
             }
-            connection.commit();
             eventLog.info(" order " + orderId + " created");
             dbLog.info(" order " + orderId + " created");
         } catch (SQLException e) {
@@ -101,7 +99,6 @@ public class OrderDaoImpl implements OrderDao {
                         resultSet.getDate(4),
                         resultSet.getInt(5),
                         resultSet.getString(6));
-                System.out.println(order.toString());
             }
             connection.commit();
         } catch (SQLException e) {
@@ -132,12 +129,15 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void deleteOrderById(int orderId) {
+    public void deleteOrderById(int orderId) throws IllegalIdException {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(deleteOrderQuery)) {
             connection.setAutoCommit(false);
             ps.setInt(1, orderId);
             int deletedRows = ps.executeUpdate();
+            if (deletedRows == 0){
+                throw new IllegalIdException();
+            }
             connection.commit();
             eventLog.info("Order " + orderId + "is deleted. " + deletedRows);
             dbLog.info("Order " + orderId + "is deleted. " + deletedRows);
@@ -148,12 +148,16 @@ public class OrderDaoImpl implements OrderDao {
     }
 
     @Override
-    public void deleteProductFromBucket(int buyerId, int productId) {
+    public void deleteProductFromBucket(int buyerId, int productId) throws IllegalIdException {
         try (Connection connection = connectionManager.getConnection();
              PreparedStatement ps = connection.prepareStatement(deleteProductFromBucketQuery)) {
             connection.setAutoCommit(false);
-            ps.setInt(1, productId);
-            ps.setInt(2, buyerId);
+            ps.setInt(1, buyerId);
+            ps.setInt(2, productId);
+            ps.executeUpdate();
+            if(buyerId <= 0 | productId <= 0){
+                throw new IllegalIdException();
+            }
             connection.commit();
             eventLog.info("Product " + productId + " deleted from bucket. " + ps.executeUpdate());
             dbLog.info("Product " + productId + " deleted from bucket. " + ps.executeUpdate());

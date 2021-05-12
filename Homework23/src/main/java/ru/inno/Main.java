@@ -15,10 +15,12 @@ public class Main {
     public static void main(String[] args) {
         try {
             DBUtil.reNewTables();
-//            Main main = new Main();
-//            OrderDao orderDao = new OrderDaoImpl();
-//            main.testMethod(orderDao);
+            Main main = new Main();
+            OrderDao orderDao = new OrderDaoImpl();
+            main.testMethod(orderDao);
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalIdException e) {
             e.printStackTrace();
         }
     }
@@ -33,14 +35,15 @@ public class Main {
         orderDao.addNewProductToBucket(3, 3);
         orderDao.addNewProductToBucket(3, 2);
         orderDao.addNewProductToBucket(3, 6);
-        orderDao.deleteProductFromBucket(3, 5);
-        System.out.println(orderDao.findById(1).toString());
+        orderDao.deleteProductFromBucket(3, 6);
+        System.out.println("-----------");
+        System.out.println(orderDao.findById(3).toString());
         orderDao.updateById(2, "Bauman str, 56", Date.valueOf("2021-05-03"), "Unpaid");
         orderDao.updateById(3, "Tukai str, 98", Date.valueOf("2021-05-02"), "Paid");
         orderDao.updateById(1, "Nekrasov str, 23", Date.valueOf("2021-05-01"), "Paid");
-        orderDao.findById(1);
-        orderDao.findById(2);
-        orderDao.findById(3);
+        System.out.println(orderDao.findById(188).toString());
+        System.out.println(orderDao.findById(2).toString());
+        System.out.println(orderDao.findById(3).toString());
     }
 
 }

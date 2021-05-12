@@ -43,15 +43,19 @@ class OrderDaoImplTest {
     }
 
     @Test
-    void findById() {
+    void findByIdWithOk() {
+        assertDoesNotThrow(() -> orderDao.findById(2));
+    }
+
+
+    @Test
+    void deleteProductFromBucketWithOk() {
+        assertDoesNotThrow(() -> orderDao.deleteProductFromBucket(1, 4));
     }
 
     @Test
-    void deleteOrderById() {
-    }
-
-    @Test
-    void deleteProductFromBucket() {
+    void deleteProductFromBucketWithIllegalId() {
+        assertThrows(IllegalIdException.class, () -> orderDao.deleteProductFromBucket(-23, 45));
     }
 
     @BeforeEach

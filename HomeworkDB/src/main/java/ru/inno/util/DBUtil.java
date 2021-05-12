@@ -7,7 +7,6 @@ import ru.inno.connection.ConnectionManager;
 import java.sql.*;
 
 public class DBUtil {
-    private static Logger dbLog = LoggerFactory.getLogger("dbAppender");
     public static final ConnectionManager connectionManager = ConnectionManager.getINSTANCE();
     private static Logger systemLog = LoggerFactory.getLogger("systemAppender");
     private static Logger securityLog = LoggerFactory.getLogger("securityAppender");
@@ -55,11 +54,9 @@ public class DBUtil {
                     "INSERT INTO products(product_name, cost) VALUES ('тыква', 28);");
             connection.commit();
             eventLog.info("Tables created");
-            dbLog.info("Tables created");
         } catch (SQLException throwables) {
             connection.rollback(sp4);
             systemLog.error("Tables don't refreshed");
-            dbLog.error("Tables don't refreshed");
         }
     }
 
