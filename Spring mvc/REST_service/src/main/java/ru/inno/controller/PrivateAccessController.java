@@ -1,42 +1,32 @@
 package ru.inno.controller;
 
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import lombok.Data;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ru.inno.entity.User;
+import org.springframework.web.servlet.ModelAndView;
+import ru.inno.entity.Card;
 import ru.inno.service.UserService;
+
+import java.util.Random;
 
 @Data
 @RestController
 public class PrivateAccessController {
     private UserService userService;
 
-    //starting page
-    @GetMapping(name = "/get")
-    public String getAccessPage(Model model){
-        //redirect to payment page
-        return "hello";
-    }
-
-    @GetMapping(name = "/payment")
-    public String pay(Model model){
-        return "payment";
-    }
-
-    @PostMapping(name = "/payment")
-    public ResponceEntity<?> pay(@RequestBody User user){
-        userService.create(user);
-        return "payment";
-    }
-
-    @GetMapping
-    public String successPayment(Model model){
-        return "success";
-    }
-
-    @GetMapping(name = "/allUsers")
-    public String getAll(){
-
+    @RequestMapping(value = "/payment")
+    public ResponseEntity<String> pay(){
+        userService.doTransaction();
+        Random random = new Random();
+        boolean success = random.nextBoolean();
+        if(success){
+            System.out.println("Успешно");
+            return new  ResponseEntity<>("Успешно", HttpStatus.ACCEPTED);
+        } else {
+            System.out.println("Ошибка!");
+            return new  ResponseEntity<>("Ошибка!", HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -11,10 +11,12 @@
     <title>Enter info and pay!</title>
 </head>
 <body>
-<!--/*@thymesVar id="user" type="ru.inno.entity.User"*/-->
-<form action="#" th:action="@{/payment}" th:object="${user}">
-    <input th:field="*{username}" id="username"/>
-    <input th:field="*{password}" id="password"/>
+<!--/*@thymesVar id="userCard" type="ru.inno.entity.Card"*/-->
+<form action="#" th:action="@{/payment}" th:object="${userCard}">
+    <input th:field="*{cvv}" id="cvv"/>
+    <input th:field="*{cardNumber}" id="number"/>
+    <input th:field="*{validThru}" id="validThru"/>
+    <input th:field="*{owner}" id="owner"/>
     <input type="submit" value="Pay!">
 </form>
 
