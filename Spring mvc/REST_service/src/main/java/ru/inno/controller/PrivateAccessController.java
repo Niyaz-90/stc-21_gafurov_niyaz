@@ -12,11 +12,12 @@ import ru.inno.service.UserService;
 import java.util.Random;
 
 @Data
-@RestController
+@RestController(value = "/payment")
 public class PrivateAccessController {
     private UserService userService;
 
-    @RequestMapping(value = "/payment")
+    @GetMapping( "/pay")
+    @ResponseBody
     public ResponseEntity<String> pay(){
         userService.doTransaction();
         Random random = new Random();
