@@ -1,4 +1,4 @@
-package lab.test.task.pattern.pageObject;
+package lab.test.task.page;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

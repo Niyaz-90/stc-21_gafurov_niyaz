@@ -1,4 +1,4 @@
-package lab.test.task.pattern.pageObject;
+package lab.test.task.conf;
 
 import java.io.FileInputStream;
 import java.io.IOException;

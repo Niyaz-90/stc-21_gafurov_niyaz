@@ -1,14 +1,17 @@
-package lab.test.task.pattern.pageObject;
+package lab.test.task;
 
+import lab.test.task.conf.ConfProperties;
+import lab.test.task.page.MainPage;
+import lab.test.task.page.ProfilePage;
 import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-public class LoginTest {
+public class MailRuTests {
     private static WebDriver driver;
     private static MainPage mainPage;
     private static ProfilePage profilePage;
@@ -25,7 +28,7 @@ public class LoginTest {
         driver.get(ConfProperties.getProperty("url"));
     }
 
-    @Test
+    @Test(priority = 1)
     public void login(){
         mainPage.enterUsername(ConfProperties.getProperty("username"));
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -36,4 +39,11 @@ public class LoginTest {
         mainPage.pressLoginButton();
         Assert.assertEquals(ConfProperties.getProperty("username"), profilePage.getUsername());
     }
+
+    @Test(priority=2)
+    public void send(){
+        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+        Assert.assertEquals("OK", profilePage.writeMessage());
+    }
+
 }
