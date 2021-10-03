@@ -42,8 +42,8 @@ public class MailRuTests {
 
     @Test(priority=2)
     public void send(){
-        driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-        Assert.assertEquals("OK", profilePage.writeMessage());
+        profilePage.writeMessage();
+        Assert.assertEquals("Письмо отправлено", profilePage.sendResult());
     }
 
 }

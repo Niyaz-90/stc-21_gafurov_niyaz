@@ -25,13 +25,13 @@ public class ProfilePage {
     @FindBy(xpath = "//*[contains(@class, 'container--H9L5q size_s_compressed--2c-eV')]")
     private WebElement sendToField;
 
-    @FindBy(xpath = "//*[contains(@role, 'textbox')]")
+    @FindBy(xpath = "//div[starts-with(@class, 'editable-') and contains(@class, 'cke_editable cke_editable_inline cke_contents_true cke_show_borders')]")
     private WebElement messageBody;
 
     @FindBy(xpath = "//*[contains(@class, 'button2 button2_base button2_primary button2_compact button2_hover-support js-shortcut')]")
     private WebElement sendButton;
 
-    @FindBy(xpath = "//*[contains(@class, 'layer_link')]")
+    @FindBy(className = "layer__link")
     private WebElement sendingResult;
 
     @FindBy(xpath = "//*[contains(@title, 'niyazga-12345@mail.ru')]")
@@ -40,24 +40,20 @@ public class ProfilePage {
     @FindBy(partialLinkText = "/sent/")
     private WebElement shippedMessagesButton;
 
-//    @FindBy(xpath = )
-
     public String getUsername(){
         return username.getText();
     }
 
-    public String writeMessage(){
+    public void writeMessage(){
         writeMessageButton.click();
         sendToField.sendKeys(ConfProperties.getProperty("addressee"));
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         messageBody.sendKeys("message");
         sendButton.click();
-        return "OK";
     }
 
     public String sendResult(){
-        driver.manage().timeouts().implicitlyWait(25, TimeUnit.SECONDS);
-        shippedMessagesButton.click();
-       return adressee.getText();
-
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        return sendingResult.getText().trim();
     }
 }
