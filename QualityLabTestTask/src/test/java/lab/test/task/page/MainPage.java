@@ -24,6 +24,7 @@ public class MainPage {
 
     @FindBy(xpath = "//*[contains(@class, 'button svelte-1tib0qz')]")
     private WebElement enterPasswordButton;
+
     public void enterUsername(String username){
         usernameField.sendKeys(username);
     }

@@ -37,9 +37,6 @@ public class ProfilePage {
     @FindBy(xpath = "//*[contains(@title, 'niyazga-12345@mail.ru')]")
     private WebElement adressee;
 
-    @FindBy(partialLinkText = "/sent/")
-    private WebElement shippedMessagesButton;
-
     public String getUsername(){
         return username.getText();
     }
@@ -47,13 +44,11 @@ public class ProfilePage {
     public void writeMessage(){
         writeMessageButton.click();
         sendToField.sendKeys(ConfProperties.getProperty("addressee"));
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         messageBody.sendKeys("message");
         sendButton.click();
     }
 
     public String sendResult(){
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         return sendingResult.getText().trim();
     }
 }

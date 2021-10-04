@@ -31,11 +31,8 @@ public class MailRuTests {
     @Test(priority = 1)
     public void login(){
         mainPage.enterUsername(ConfProperties.getProperty("username"));
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         mainPage.pressPasswordButton();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         mainPage.enterPassword(ConfProperties.getProperty("password"));
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         mainPage.pressLoginButton();
         Assert.assertEquals(ConfProperties.getProperty("username"), profilePage.getUsername());
     }
